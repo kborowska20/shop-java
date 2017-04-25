@@ -16,7 +16,13 @@ public class ProductDaoSQLite implements ProductDao {
 
     @Override
     public void add(Product product) {
+        DbConnector<Product> dbConn = new DbConnector<>();
 
+        try {
+            dbConn.insert(product);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
