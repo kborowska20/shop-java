@@ -13,6 +13,13 @@ public class SupplierDaoSQLite implements SupplierDao {
 
     @Override
     public void add(Supplier supplier) {
+        DbConnector<Supplier> dbConn = new DbConnector<>();
+
+        try {
+            dbConn.insert(supplier);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
