@@ -27,7 +27,30 @@ public class ProductDaoSQLite implements ProductDao {
 
     @Override
     public Product find(int id) {
-        return null;
+        Product foundProduct = null;
+        try {
+            DbConnector dbConn = new DbConnector();
+            Connection conn = dbConn.connect();
+            Statement dbStatement = conn.createStatement();
+
+            ResultSet resultSet = dbStatement.executeQuery("SELECT * FROM product WHERE id=" + id);
+
+            if (resultSet.next()) {
+                ProductCategoryDaoSQLite categoryDao = new ProductCategoryDaoSQLite();
+                SupplierDaoSQLite supplierDao = new SupplierDaoSQLite();
+
+                foundProduct = new Product(resultSet.getString("name"),
+                        resultSet.getFloat("defaultPrice"),
+                        resultSet.getString("currencyString"),
+                        resultSet.getString("description"),
+                        categoryDao.find(resultSet.getInt("categoryID")),
+                        supplierDao.find(resultSet.getInt("supplierID")));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return foundProduct;
     }
 
     @Override
