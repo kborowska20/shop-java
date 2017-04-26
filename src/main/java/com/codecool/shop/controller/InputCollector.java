@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class InputCollector {
 
-    public static Scanner getScanner() {
+    private static Scanner getScanner() {
         // Use getNext* to gather your selected input type.
         return new Scanner(System.in);
     }
