@@ -3,9 +3,9 @@ package com.codecool.shop.controller;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class inputCollector {
+public class InputCollector {
 
-    private static Scanner getScanner() {
+    public static Scanner getScanner() {
         // Use getNext* to gather your selected input type.
         return new Scanner(System.in);
     }
