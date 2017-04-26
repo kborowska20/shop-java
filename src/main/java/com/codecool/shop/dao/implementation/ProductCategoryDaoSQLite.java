@@ -3,6 +3,10 @@ package com.codecool.shop.dao.implementation;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.model.ProductCategory;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 public class ProductCategoryDaoSQLite implements ProductCategoryDao {
@@ -14,7 +18,24 @@ public class ProductCategoryDaoSQLite implements ProductCategoryDao {
 
     @Override
     public ProductCategory find(int id) {
-        return null;
+        ProductCategory foundCategory = null;
+        try {
+            DbConnector dbConn = new DbConnector();
+            Connection conn = dbConn.connect();
+            Statement dbStatement = conn.createStatement();
+
+            ResultSet resultSet = dbStatement.executeQuery("SELECT * FROM productCategory WHERE id=" + id);
+
+            if (resultSet.next()) {
+                foundCategory = new ProductCategory(resultSet.getString("name"),
+                        resultSet.getString("department"),
+                        resultSet.getString("description"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return foundCategory;
     }
 
     @Override
