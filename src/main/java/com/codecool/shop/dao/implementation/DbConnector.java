@@ -35,22 +35,27 @@ class DbConnector<T> {
             String query = "INSERT OR REPLACE INTO ";
             if (t instanceof Product) {
                 query += "product (id, name, defaultPrice, currencyString, description, categoryID, supplierID)"
-                        + " VALUES ((SELECT id FROM product WHERE id=" + ((Product) t).getId() + "), '" +
+                        + " VALUES ((SELECT id FROM product WHERE id=" +
+                        ((Product) t).getId() + "), '" +
                         ((Product) t).getName() + "', " +
-                        ((Product) t).getDefaultPrice() +
-                        ", 'PLN', '" +
-                        ((Product) t).getDescription() +
-                        "', 7, 8);";
+                        ((Product) t).getDefaultPrice() + ", 'PLN', '" +
+                        ((Product) t).getDescription() + "', " +
+                        ((Product) t).getProductCategory().getId() + ", " +
+                        ((Product) t).getSupplier().getId() + ");";
 
             } else if (t instanceof ProductCategory) {
-//                query += MessageFormat.format("productCategory (id, name, department, description) " +
-//                                "VALUES ((SELECT id FROM product WHERE id={1}), \'{2}\', \'{3}\', \'{4}\');",
-//                        ((ProductCategory) t).getId(), ((ProductCategory) t).getName(),
-//                        ((ProductCategory) t).getDepartment(), ((ProductCategory) t).getDescription());
+                query += "productCategory (id, name, department, description) " +
+                                "VALUES ((SELECT id FROM product WHERE id=" +
+                        ((ProductCategory) t).getId() + "), '" +
+                        ((ProductCategory) t).getName() + "', '" +
+                        ((ProductCategory) t).getDepartment() + "', '" +
+                        ((ProductCategory) t).getDescription() + "');";
             } else if (t instanceof Supplier) {
-//                query += MessageFormat.format("supplier (id, name, description) " +
-//                                "VALUES ((SELECT id FROM product WHERE id={1}), \'{2}\', \'{3}\');",
-//                        ((Supplier) t).getId(), ((Supplier) t).getName(), ((Supplier) t).getDescription());
+                query += "supplier (id, name, description) " +
+                                "VALUES ((SELECT id FROM product WHERE id=" +
+                        ((Supplier) t).getId() + "), '" +
+                        ((Supplier) t).getName() + "', '" +
+                        ((Supplier) t).getDescription() + "');";
             } else {
                 throw new TypeMismatchException("Unsupported type of the object provided!");
             }
