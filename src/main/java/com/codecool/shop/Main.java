@@ -4,6 +4,7 @@ import com.codecool.shop.dao.implementation.ProductDaoSQLite;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
+import com.codecool.shop.view.MenuView;
 
 
 public class Main {
@@ -17,6 +18,6 @@ public class Main {
                 "PLN", "Desc",
                 new ProductCategory("Test", "Test", "Test"),
                 new Supplier("Test", "Test")));
-
+        MenuView.viewMainMenu();
     }
 }
