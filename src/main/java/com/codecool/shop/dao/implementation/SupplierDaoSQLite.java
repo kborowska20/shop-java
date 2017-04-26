@@ -39,7 +39,18 @@ public class SupplierDaoSQLite implements SupplierDao {
 
     @Override
     public void remove(int id) {
+        try {
+            DbConnector dbConn = new DbConnector();
+            Connection conn = dbConn.connect();
+            Statement dbStatement = conn.createStatement();
 
+            dbStatement.execute("DELETE FROM supplier WHERE id=" + id);
+
+            dbStatement.close();
+            dbConn.closeConnection(conn);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
