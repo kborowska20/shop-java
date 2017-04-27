@@ -7,20 +7,25 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductCategoryDaoSQLite implements ProductCategoryDao {
+    private static DbConnector<ProductCategory> dbConn = new DbConnector<>();
 
     @Override
     public void add(ProductCategory category) {
-
+        try {
+            dbConn.insert(category);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public ProductCategory find(int id) {
         ProductCategory foundCategory = null;
         try {
-            DbConnector dbConn = new DbConnector();
             Connection conn = dbConn.connect();
             Statement dbStatement = conn.createStatement();
 
@@ -40,10 +45,21 @@ public class ProductCategoryDaoSQLite implements ProductCategoryDao {
 
     @Override
     public void remove(int id) {
+        try {
+            dbConn.delete(find(id));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public List<ProductCategory> getAll() {
-        return null;
+        List<ProductCategory> categoryList = new ArrayList<>();
+        try {
+            categoryList = dbConn.getAllCategories();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return categoryList;
     }
 }
