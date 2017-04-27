@@ -15,8 +15,8 @@ public class SupplierController {
         SupplierView.printSupplier(supplierDao.find(id));
     }
 
-    public static void addSupplier(Supplier supplier) {
-        supplierDao.add(supplier);
+    public static void addSupplier(String newSupplierName, String newSupplierDescription) {
+        supplierDao.add(new Supplier(newSupplierName, newSupplierDescription));
     }
 
     public static void removeSupplier(Integer id) {

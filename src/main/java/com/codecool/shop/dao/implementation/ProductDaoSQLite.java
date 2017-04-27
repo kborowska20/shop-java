@@ -37,7 +37,8 @@ public class ProductDaoSQLite implements ProductDao {
                 ProductCategoryDaoSQLite categoryDao = new ProductCategoryDaoSQLite();
                 SupplierDaoSQLite supplierDao = new SupplierDaoSQLite();
 
-                foundProduct = new Product(resultSet.getString("name"),
+                foundProduct = new Product(resultSet.getInt("id"),
+                        resultSet.getString("name"),
                         resultSet.getFloat("defaultPrice"),
                         resultSet.getString("currencyString"),
                         resultSet.getString("description"),

@@ -32,7 +32,8 @@ public class ProductCategoryDaoSQLite implements ProductCategoryDao {
             ResultSet resultSet = dbStatement.executeQuery("SELECT * FROM productCategory WHERE id=" + id);
 
             if (resultSet.next()) {
-                foundCategory = new ProductCategory(resultSet.getString("name"),
+                foundCategory = new ProductCategory(resultSet.getInt("id"),
+                        resultSet.getString("name"),
                         resultSet.getString("department"),
                         resultSet.getString("description"));
             }

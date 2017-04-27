@@ -16,7 +16,6 @@ public class SupplierDaoSQLite implements SupplierDao {
 
     @Override
     public void add(Supplier supplier) {
-
         try {
             dbConn.insert(supplier);
         } catch (SQLException e) {
@@ -35,7 +34,8 @@ public class SupplierDaoSQLite implements SupplierDao {
             ResultSet resultSet = dbStatement.executeQuery("SELECT * FROM supplier WHERE id=" + id);
 
             if (resultSet.next()) {
-                foundSupplier = new Supplier(resultSet.getString("name"),
+                foundSupplier = new Supplier(resultSet.getInt("id"),
+                        resultSet.getString("name"),
                         resultSet.getString("description"));
             }
 
