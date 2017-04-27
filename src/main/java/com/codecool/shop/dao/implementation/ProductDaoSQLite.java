@@ -60,32 +60,13 @@ public class ProductDaoSQLite implements ProductDao {
 
     @Override
     public List<Product> getAll() {
-        List<Product> productList = new ArrayList<>();
         try {
-            DbConnector dbConn = new DbConnector();
-            Connection conn = dbConn.connect();
-            Statement dbStatement = conn.createStatement();
-
-            // TODO
-            ResultSet resultSet = dbStatement.executeQuery("SELECT name, defaultPrice, " +
-                    "currencyString, description FROM product;");
-
-            while (resultSet.next()) {
-                productList.add(new Product(resultSet.getString("name"),
-                        resultSet.getFloat("defaultPrice"),
-                        resultSet.getString("currencyString"),
-                        resultSet.getString("description"),
-                        // TODO
-                        new ProductCategory("Test", "Test", "Test"),
-                        new Supplier("Test", "Test")));
-            }
-
-            dbStatement.close();
-            dbConn.closeConnection(conn);
-        } catch (SQLException e) {
+            DbConnector<Product> dbConn = new DbConnector<>();
+            return dbConn.getAllProducts();
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return productList;
+        return null;
     }
 
     @Override

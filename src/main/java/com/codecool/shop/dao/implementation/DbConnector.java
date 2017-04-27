@@ -83,10 +83,14 @@ class DbConnector<T> {
         }
     }
 
+    List<Product> getAllProducts() throws TypeMismatchException {
+        return filterProductsBy(null);
+    }
+
     List<Product> filterProductsBy(T t) throws TypeMismatchException {
         List<Product> productList = new ArrayList<>();
-        Supplier supplier = new Supplier("", "");
-        ProductCategory category = new ProductCategory("", "", "");
+        Supplier supplier = new Supplier(null, null);
+        ProductCategory category = new ProductCategory(null, null, null);
 
         try {
             DbConnector dbConn = new DbConnector();
@@ -98,8 +102,6 @@ class DbConnector<T> {
                 category = ((ProductCategory) t);
             } else if (t instanceof Supplier) {
                 supplier = ((Supplier) t);
-            } else {
-                throw new TypeMismatchException();
             }
 
             while (resultSet.next()) {
