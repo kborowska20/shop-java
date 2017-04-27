@@ -4,9 +4,9 @@ import com.codecool.shop.dao.Iterator;
 
 import java.util.ArrayList;
 
-public class Basket {
+public class ShoppingCart {
 
-    private ArrayList<Product> productList = new ArrayList<>();
+    private ArrayList<CartItem> itemList = new ArrayList<>();
 
     private class ProductIterator implements Iterator {
 
@@ -14,39 +14,39 @@ public class Basket {
 
         @Override
         public Boolean hasNext() {
-            return index < productList.size();
+            return index < itemList.size();
         }
 
         @Override
         public Object next() {
             if (this.hasNext()) {
-                return productList.get(index++);
+                return itemList.get(index++);
             }
 
             return null;
         }
     }
 
-    public Iterator getIterator() {
+    private Iterator getIterator() {
         return new ProductIterator();
     }
 
-    public void addProduct(Product product) {
-        productList.add(product);
+    public void addProduct(CartItem cartItem) {
+        itemList.add(cartItem);
     }
 
-    public Boolean removeProduct(Product product) {
+    public Boolean removeProduct(CartItem cartItem) {
         Iterator iterator = this.getIterator();
         while (iterator.hasNext()) {
-            if (product == iterator.next()) {
-                productList.remove(product);
+            if (cartItem == iterator.next()) {
+                itemList.remove(cartItem);
                 return true;
             }
         }
         return false;
     }
 
-    public ArrayList<Product> getProductList() {
-        return productList;
+    public ArrayList<CartItem> getItemList() {
+        return itemList;
     }
 }
