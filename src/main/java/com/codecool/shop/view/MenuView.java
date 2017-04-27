@@ -27,27 +27,8 @@ public class MenuView {
         printStringList(mainMenu);
     }
 
-
     public static void printMessage(String msg) {
         System.out.println(msg);
-    }
-
-    public static void printProductList(List<Product> productList) {
-        for (Product product : productList) {
-            printMessage((productList.indexOf(product) + 1) + product.toString());
-        }
-    }
-
-    public static void printSupplierList(List<Supplier> supplierList) {
-        for (Supplier supplier : supplierList) {
-            printMessage((supplierList.indexOf(supplier)) + 1 + ": " + supplier.toString());
-        }
-    }
-
-    public static void printCategoryList(List<ProductCategory> categoryList) {
-        for (ProductCategory category : categoryList) {
-            printMessage((categoryList.indexOf(category) + 1) + ": " + category.toString());
-        }
     }
 
     public static void printStringList(List<String> stringList) {
