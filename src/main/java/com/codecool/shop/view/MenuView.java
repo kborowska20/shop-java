@@ -5,21 +5,28 @@ import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MenuView {
     public static void viewMainMenu(){
-        System.out.println("");
-        System.out.println("----- Online shop Menu -----");
-        System.out.println("\tSelect an option: ");
-        System.out.println("\t1. View products");
-        System.out.println("\t2. View categories");
-        System.out.println("\t3. View suppliers");
-        System.out.println("\t4. View basket ");
-        System.out.println("\t0. Exit ");
-        System.out.println("----------------------------");
-        System.out.println("");
+        List<String> mainMenu = new ArrayList<>();
+        mainMenu.add("");
+        mainMenu.add("----- Online shop Menu -----");
+        mainMenu.add("\tSelect an option: ");
+        mainMenu.add("\t1. View products");
+        mainMenu.add("\t2. View products by category");
+        mainMenu.add("\t3. View categories");
+        mainMenu.add("\t4. View products by supplier");
+        mainMenu.add("\t5. View suppliers");
+        mainMenu.add("\t6. View shopping cart");
+        mainMenu.add("\t7. Shopping cart menu");
+        mainMenu.add("\t0. Exit ");
+        mainMenu.add("----------------------------");
+        mainMenu.add("");
+        printStringList(mainMenu);
     }
+
 
     public static void printMessage(String msg) {
         System.out.println(msg);
