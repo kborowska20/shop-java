@@ -12,10 +12,10 @@ public class MenuView {
         mainMenu.add("\tView products by supplier");
         mainMenu.add("\tView suppliers");
         mainMenu.add("\tShopping cart menu");
-        mainMenu.add("\tExit ");
 
         printMessage("------- Online Shop menu -------");
         printStringList(mainMenu);
+        MenuView.printMessage("0:\tExit");
         printMessage("--------------------------------");
     }
 
@@ -23,7 +23,7 @@ public class MenuView {
         System.out.println(msg);
     }
 
-    public static void printStringList(List<String> stringList) {
+    static void printStringList(List<String> stringList) {
         for (String entry : stringList) {
             printMessage((stringList.indexOf(entry) + 1) + ": " + entry);
         }
