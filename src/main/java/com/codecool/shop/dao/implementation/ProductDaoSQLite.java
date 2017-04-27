@@ -9,15 +9,14 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProductDaoSQLite implements ProductDao {
+    private static DbConnector<Product> dbConn = new DbConnector<>();
 
     @Override
     public void add(Product product) {
-        DbConnector<Product> dbConn = new DbConnector<>();
-
         try {
             dbConn.insert(product);
         } catch (SQLException e) {
@@ -29,7 +28,6 @@ public class ProductDaoSQLite implements ProductDao {
     public Product find(int id) {
         Product foundProduct = null;
         try {
-            DbConnector dbConn = new DbConnector();
             Connection conn = dbConn.connect();
             Statement dbStatement = conn.createStatement();
 
@@ -55,29 +53,47 @@ public class ProductDaoSQLite implements ProductDao {
 
     @Override
     public void remove(int id) {
-
+        try {
+            dbConn.delete(find(id));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public List<Product> getAll() {
+        List<Product> productList = null;
         try {
-            DbConnector<Product> dbConn = new DbConnector<>();
-            return dbConn.getAllProducts();
+            productList = dbConn.getAllProducts();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return productList;
     }
 
     @Override
     public List<Product> getBy(Supplier supplier) {
-        DbConnector<Supplier> dbConn = new DbConnector<>();
-        return dbConn.filterProductsBy(supplier);
+        List<Product> productList = new ArrayList<>();
+        try {
+            DbConnector<Supplier> dbConn = new DbConnector<>();
+            productList = dbConn.filterProductsBy(supplier);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return productList;
     }
 
     @Override
     public List<Product> getBy(ProductCategory category) {
-        DbConnector<ProductCategory> dbConn = new DbConnector<>();
-        return dbConn.filterProductsBy(category);
+        List<Product> productList = new ArrayList<>();
+        try {
+            DbConnector<ProductCategory> dbConn = new DbConnector<>();
+            productList = dbConn.filterProductsBy(category);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return productList;
     }
 }
