@@ -12,7 +12,7 @@ public class SupplierController {
     }
 
     public static void showSupplierBy(Integer id) {
-        SupplierView.printProduct(supplierDao.find(id));
+        SupplierView.printSupplier(supplierDao.find(id));
     }
 
     public static void addSupplier(Supplier supplier) {
