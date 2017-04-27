@@ -16,10 +16,10 @@ public class ShoppingCartView {
         shoppingCartMenu.add("Change quantity of an item");
         shoppingCartMenu.add("Checkout all items");
         shoppingCartMenu.add("Use Promo code");
-        shoppingCartMenu.add("Exit to main menu");
 
         MenuView.printMessage("------ Shopping cart menu ------");
         MenuView.printStringList(shoppingCartMenu);
+        MenuView.printMessage("0:\tExit to main menu");
         MenuView.printMessage("--------------------------------");
     }
 
