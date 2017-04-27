@@ -5,7 +5,7 @@ import com.codecool.shop.model.Supplier;
 import com.codecool.shop.view.SupplierView;
 
 public class SupplierController {
-    public static SupplierDaoSQLite supplierDao;
+    private static SupplierDaoSQLite supplierDao;
 
     public static void showAllSuppliers() {
         SupplierView.printSupplierList(supplierDao.getAll());

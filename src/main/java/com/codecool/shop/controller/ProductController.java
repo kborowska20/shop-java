@@ -5,7 +5,7 @@ import com.codecool.shop.model.Product;
 import com.codecool.shop.view.ProductView;
 
 public class ProductController {
-    public static ProductDaoSQLite productDao;
+    private static ProductDaoSQLite productDao;
 
     public static void showAllProducts() {
         ProductView.printProductList(productDao.getAll());
