@@ -1,30 +1,23 @@
 package com.codecool.shop.view;
 
-import com.codecool.shop.model.Product;
-import com.codecool.shop.model.ProductCategory;
-import com.codecool.shop.model.Supplier;
-
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MenuView {
-    public static void viewMainMenu(){
+    public static void viewMainMenu() {
         List<String> mainMenu = new ArrayList<>();
-        mainMenu.add("");
-        mainMenu.add("----- Online shop Menu -----");
-        mainMenu.add("\tSelect an option: ");
-        mainMenu.add("\t1. View products");
-        mainMenu.add("\t2. View products by category");
-        mainMenu.add("\t3. View categories");
-        mainMenu.add("\t4. View products by supplier");
-        mainMenu.add("\t5. View suppliers");
-        mainMenu.add("\t6. View shopping cart");
-        mainMenu.add("\t7. Shopping cart menu");
-        mainMenu.add("\t0. Exit ");
-        mainMenu.add("----------------------------");
-        mainMenu.add("");
+        mainMenu.add("\tView products");
+        mainMenu.add("\tView products by category");
+        mainMenu.add("\tView categories");
+        mainMenu.add("\tView products by supplier");
+        mainMenu.add("\tView suppliers");
+        mainMenu.add("\tView shopping cart");
+        mainMenu.add("\tShopping cart menu");
+        mainMenu.add("\tExit ");
+
+        printMessage("------- Online Shop menu -------");
         printStringList(mainMenu);
+        printMessage("--------------------------------");
     }
 
     public static void printMessage(String msg) {
