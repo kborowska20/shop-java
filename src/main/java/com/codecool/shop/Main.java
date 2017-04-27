@@ -25,7 +25,7 @@ public class Main {
                         continue;
                     case 1:
                         //View products
-                        MenuView.printProductList();
+//                        MenuView.printProductList();
                         break;
                     case 2:
                         //View products by category
