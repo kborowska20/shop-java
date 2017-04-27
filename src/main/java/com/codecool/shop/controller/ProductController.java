@@ -3,6 +3,7 @@ package com.codecool.shop.controller;
 import com.codecool.shop.dao.implementation.ProductDaoSQLite;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
+import com.codecool.shop.model.Supplier;
 import com.codecool.shop.view.ProductView;
 
 public class ProductController {
@@ -17,7 +18,10 @@ public class ProductController {
     }
 
     public static void getProductsBy(ProductCategory category) {
-
+        ProductView.printProductList(productDao.getBy(category));
+    }
+    public static void getProductsBy(Supplier supplier) {
+        ProductView.printProductList(productDao.getBy(supplier));
     }
 
     public static void addProduct(Product product) {
