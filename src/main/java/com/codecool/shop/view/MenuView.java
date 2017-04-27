@@ -43,5 +43,11 @@ public class MenuView {
         }
     }
 
+    public static void printStringList(List<String> stringList) {
+        for (String entry : stringList) {
+            printMessage((stringList.indexOf(entry) + 1) + ": " + entry);
+        }
+    }
+
 
 }
