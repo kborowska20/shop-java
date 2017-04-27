@@ -6,6 +6,7 @@ import com.codecool.shop.model.Supplier;
 import com.sun.corba.se.impl.io.TypeMismatchException;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 class DbConnector<T> {
@@ -45,14 +46,14 @@ class DbConnector<T> {
 
             } else if (t instanceof ProductCategory) {
                 query += "productCategory (id, name, department, description) " +
-                                "VALUES ((SELECT id FROM product WHERE id=" +
+                        "VALUES ((SELECT id FROM product WHERE id=" +
                         ((ProductCategory) t).getId() + "), '" +
                         ((ProductCategory) t).getName() + "', '" +
                         ((ProductCategory) t).getDepartment() + "', '" +
                         ((ProductCategory) t).getDescription() + "');";
             } else if (t instanceof Supplier) {
                 query += "supplier (id, name, description) " +
-                                "VALUES ((SELECT id FROM product WHERE id=" +
+                        "VALUES ((SELECT id FROM product WHERE id=" +
                         ((Supplier) t).getId() + "), '" +
                         ((Supplier) t).getName() + "', '" +
                         ((Supplier) t).getDescription() + "');";
@@ -80,6 +81,41 @@ class DbConnector<T> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    List<Product> filterProductsBy(T t) throws TypeMismatchException {
+        List<Product> productList = new ArrayList<>();
+        Supplier supplier = new Supplier("", "");
+        ProductCategory category = new ProductCategory("", "", "");
+
+        try {
+            DbConnector dbConn = new DbConnector();
+            Connection conn = dbConn.connect();
+            Statement dbStatement = conn.createStatement();
+            ResultSet resultSet = dbStatement.executeQuery("SELECT * FROM product;");
+
+            if (t instanceof ProductCategory) {
+                category = ((ProductCategory) t);
+            } else if (t instanceof Supplier) {
+                supplier = ((Supplier) t);
+            } else {
+                throw new TypeMismatchException();
+            }
+
+            while (resultSet.next()) {
+                productList.add(new Product(resultSet.getString("name"),
+                        resultSet.getFloat("defaultPrice"),
+                        resultSet.getString("currencyString"),
+                        resultSet.getString("description"),
+                        category, supplier));
+            }
+
+            dbStatement.close();
+            dbConn.closeConnection(conn);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return productList;
     }
 
 }
