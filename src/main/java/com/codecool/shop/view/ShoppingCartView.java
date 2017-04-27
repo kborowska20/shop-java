@@ -18,9 +18,9 @@ public class ShoppingCartView {
         shoppingCartMenu.add("Use Promo code");
         shoppingCartMenu.add("Exit to main menu");
 
-        MenuView.printMessage("------- Shopping cart menu -------");
+        MenuView.printMessage("------ Shopping cart menu ------");
         MenuView.printStringList(shoppingCartMenu);
-        MenuView.printMessage("----------------------------------");
+        MenuView.printMessage("--------------------------------");
     }
 
     public static void printCartItemList(List<CartItem> cartItemList) {
