@@ -1,16 +1,12 @@
 package com.codecool.shop;
 
 import com.codecool.shop.controller.InputCollector;
-import com.codecool.shop.dao.implementation.ProductDaoSQLite;
-import com.codecool.shop.model.Product;
-import com.codecool.shop.model.ProductCategory;
+import com.codecool.shop.controller.ProductCategoryController;
+import com.codecool.shop.controller.ProductController;
+import com.codecool.shop.controller.SupplierController;
 import com.codecool.shop.view.MenuView;
 
-import com.codecool.shop.model.Supplier;
-
 import java.util.InputMismatchException;
-import java.util.Scanner;
-
 
 public class Main {
     public static void main(String args[]) {
@@ -24,33 +20,41 @@ public class Main {
                     default:
                         continue;
                     case 1:
-                        //View products
-//                        MenuView.printProductList();
-                        break;
+                        // So that I can browse Products within that Category
+                        ProductController.showAllProducts();
+                        continue;
                     case 2:
-                        //View products by category
-                        break;
+                        // So that I can browse Products within any Category
+                        ProductCategoryController.showAllCategories();
+                        Integer userCategoryInput = InputCollector.getNextInt();
+                        // use userCategoryInput to show product within the selected category
+                        continue;
                     case 3:
-                        //View categories
-                        break;
+                        // View categories
+                        ProductCategoryController.showAllCategories();
+                        continue;
                     case 4:
-                        //View products by supplier
-                        break;
+                        // So that I can browse Products by Suppliers
+                        SupplierController.showAllSuppliers();
+                        Integer userSupplierInput = InputCollector.getNextInt();
+                        // use userSupplierInput to show product within the selected category
+                        continue;
                     case 5:
-                        //View supplier
-                        break;
+                        // View supplier
+                        SupplierController.showAllSuppliers();
+                        continue;
                     case 6:
-                        //View shopping cart
-                        break;
+                        // View shopping cart
+                        continue;
                     case 7:
-                        //Shopping cart menu
-                        break;
+                        // Shopping cart menu
+                        continue;
                     case 0:
                         isMenuLoopActive = false;
 
                 }
             } catch (InputMismatchException e) {
-                System.err.println("Not a valid input. Error :");
+                e.printStackTrace();
             }
         }
     }
