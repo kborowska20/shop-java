@@ -4,6 +4,7 @@ import com.codecool.shop.dao.implementation.ProductDaoSQLite;
 import com.codecool.shop.model.CartItem;
 import com.codecool.shop.model.ShoppingCart;
 import com.codecool.shop.view.ShoppingCartView;
+import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
 
 public class ShoppingCartController {
     private static ProductDaoSQLite productDao = new ProductDaoSQLite();
@@ -21,7 +22,11 @@ public class ShoppingCartController {
     }
 
     public static void editQuantity(ShoppingCart shoppingCart, Integer cartItemId, Integer quantity) {
-        shoppingCart.getItemList().get(cartItemId).setProductQuantity(quantity);
+        if (quantity > 0) {
+            shoppingCart.getItemList().get(cartItemId).setProductQuantity(quantity);
+        } else {
+            throw new ArithmeticException();
+        }
     }
 
     public static void checkoutItemsFromCart() {
