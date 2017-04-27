@@ -15,8 +15,8 @@ public class ProductCategoryController {
         ProductCategoryView.printCategory(categoryDao.find(id));
     }
 
-    public static void addCategory(ProductCategory category) {
-        categoryDao.add(category);
+    public static void addCategory(String newCategoryName, String newCategoryDepartment, String newCategoryDescription) {
+        categoryDao.add(new ProductCategory(newCategoryName, newCategoryDepartment, newCategoryDescription));
     }
 
     public static void removeCategory(Integer id) {

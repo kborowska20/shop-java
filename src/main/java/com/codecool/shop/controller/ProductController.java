@@ -7,6 +7,7 @@ import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
 import com.codecool.shop.view.ProductView;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 
 public class ProductController {
     private static ProductDaoSQLite productDao = new ProductDaoSQLite();
@@ -31,6 +32,7 @@ public class ProductController {
         ProductView.printProductList(productDao.getBy(supplierDao.find(id)));
     }
 
+    @Ignore
     public static void addProduct(Product product) {
         productDao.add(product);
     }
