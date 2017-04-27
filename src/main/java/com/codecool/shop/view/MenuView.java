@@ -1,5 +1,12 @@
 package com.codecool.shop.view;
 
+import com.codecool.shop.model.Product;
+import com.codecool.shop.model.ProductCategory;
+import com.codecool.shop.model.Supplier;
+
+import java.awt.*;
+import java.util.List;
+
 public class MenuView {
     public static void viewMainMenu(){
         System.out.println("");
@@ -13,6 +20,34 @@ public class MenuView {
         System.out.println("----------------------------");
         System.out.println("");
     }
-}
 
-// getScanner(), getInt(), getString()
+    public static void printMessage(String msg) {
+        System.out.println(msg);
+    }
+
+    public static void printProductList(List<Product> productList) {
+        for (Product product : productList) {
+            printMessage((productList.indexOf(product) + 1) + product.toString());
+        }
+    }
+
+    public static void printSupplierList(List<Supplier> supplierList) {
+        for (Supplier supplier : supplierList) {
+            printMessage((supplierList.indexOf(supplier)) + 1 + ": " + supplier.toString());
+        }
+    }
+
+    public static void printCategoryList(List<ProductCategory> categoryList) {
+        for (ProductCategory category : categoryList) {
+            printMessage((categoryList.indexOf(category) + 1) + ": " + category.toString());
+        }
+    }
+
+    public static void printStringList(List<String> stringList) {
+        for (String entry : stringList) {
+            printMessage((stringList.indexOf(entry) + 1) + ": " + entry);
+        }
+    }
+
+
+}

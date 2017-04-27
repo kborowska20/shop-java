@@ -24,16 +24,17 @@ public class Main {
                     default:
                         continue;
                     case 1:
-                        System.out.println("Products");
+                        //Products
+//                        MenuView.printProductList();
                         break;
                     case 2:
-                        System.out.println("Categories");
+                        //Categories
                         break;
                     case 3:
-                        System.out.println("Suppliers");
+                        //Suppliers
                         break;
                     case 4:
-                        System.out.println("Basket");
+                        //Basket
                         break;
                     case 0:
                         isMenuLoopActive = false;
