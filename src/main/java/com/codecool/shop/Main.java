@@ -4,8 +4,6 @@ import com.codecool.shop.controller.*;
 import com.codecool.shop.model.ShoppingCart;
 import com.codecool.shop.view.ShoppingCartView;
 
-import java.util.InputMismatchException;
-
 public class Main {
     public static void main(String args[]) {
         ShoppingCart shoppingCart = new ShoppingCart();
@@ -18,39 +16,40 @@ public class Main {
                 Integer mainMenuInput = InputCollector.getNextInt();
 
                 switch (mainMenuInput) {
-                    default:
-                        continue;
                     case 1:
                         // So that I can browse Products within that Category
                         ProductController.showAllProducts();
-                        continue;
+                        break;
                     case 2:
                         // So that I can browse Products within any Category
                         ProductCategoryController.showAllCategories();
                         MenuController.showMessage("Please enter ID of the category: ");
                         Integer userCategoryInput = InputCollector.getNextInt();
                         ProductController.getProductsByCategory(userCategoryInput);
-                        continue;
+                        break;
                     case 3:
                         // View categories
                         ProductCategoryController.showAllCategories();
-                        continue;
+                        break;
                     case 4:
                         // So that I can browse Products by Suppliers
                         SupplierController.showAllSuppliers();
                         MenuController.showMessage("Please enter ID of the supplier: ");
                         Integer userSupplierInput = InputCollector.getNextInt();
                         ProductController.getProductsBySupplier(userSupplierInput);
-                        continue;
+                        break;
                     case 5:
                         // View supplier
                         SupplierController.showAllSuppliers();
-                        continue;
+                        break;
                     case 6:
                         shoppingCartMenu(shoppingCart);
-                        continue;
+                        break;
                     case 0:
                         isMenuLoopActive = false;
+                        break;
+                    default:
+                        break;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -62,13 +61,16 @@ public class Main {
         Boolean isShoppingCardMenuLoopActive = true;
         while (isShoppingCardMenuLoopActive) {
             ShoppingCartView.viewShoppingCardMenu();
-            Integer cartMenuInput = InputCollector.getNextInt();
             try {
+                Integer cartMenuInput = InputCollector.getNextInt();
                 switch (cartMenuInput) {
+                    case 0:
+                        isShoppingCardMenuLoopActive = false;
+                        break;
                     case 1:
                         // Show items in my Cart
                         ShoppingCartController.showCartItems(shoppingCart);
-                        continue;
+                        break;
                     case 2:
                         // Add item
                         ProductController.showAllProducts();
@@ -79,7 +81,7 @@ public class Main {
                         Integer productQuantityInput = InputCollector.getNextInt();
 
                         ShoppingCartController.addToCart(shoppingCart, productIdInput, productQuantityInput);
-                        continue;
+                        break;
                     case 3:
                         // Remove item
                         ShoppingCartController.showCartItems(shoppingCart);
@@ -87,7 +89,7 @@ public class Main {
                         Integer itemIdInput = InputCollector.getNextInt();
 
                         ShoppingCartController.removeFromCart(shoppingCart, itemIdInput);
-                        continue;
+                        break;
                     case 4:
                         // Change quantity of item
                         ShoppingCartController.showCartItems(shoppingCart);
@@ -98,18 +100,18 @@ public class Main {
                         Integer newItemQuantity = InputCollector.getNextInt();
 
                         ShoppingCartController.editQuantity(shoppingCart, cartItemId, newItemQuantity);
-                        continue;
+                        break;
                     case 5:
                         // Checkout item
-                        continue;
+                        break;
 
                     case 6:
                         // Use Promo Code
-                        continue;
-                    case 0:
-                        isShoppingCardMenuLoopActive = false;
+                        break;
+                    default:
+                        break;
                 }
-            } catch (InputMismatchException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
