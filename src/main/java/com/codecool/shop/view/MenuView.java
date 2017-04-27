@@ -11,7 +11,6 @@ public class MenuView {
         mainMenu.add("\tView categories");
         mainMenu.add("\tView products by supplier");
         mainMenu.add("\tView suppliers");
-        mainMenu.add("\tView shopping cart");
         mainMenu.add("\tShopping cart menu");
         mainMenu.add("\tExit ");
 
