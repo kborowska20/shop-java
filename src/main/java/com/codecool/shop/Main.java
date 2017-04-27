@@ -2,7 +2,10 @@ package com.codecool.shop;
 
 import com.codecool.shop.controller.*;
 import com.codecool.shop.model.ShoppingCart;
+import com.codecool.shop.view.MenuView;
 import com.codecool.shop.view.ShoppingCartView;
+
+import java.util.InputMismatchException;
 
 public class Main {
     public static void main(String args[]) {
@@ -17,22 +20,18 @@ public class Main {
 
                 switch (mainMenuInput) {
                     case 1:
-                        // So that I can browse Products within that Category
                         ProductController.showAllProducts();
                         break;
                     case 2:
-                        // So that I can browse Products within any Category
                         ProductCategoryController.showAllCategories();
                         MenuController.showMessage("Please enter ID of the category: ");
                         Integer userCategoryInput = InputCollector.getNextInt();
                         ProductController.getProductsByCategory(userCategoryInput);
                         break;
                     case 3:
-                        // View categories
                         ProductCategoryController.showAllCategories();
                         break;
                     case 4:
-                        // So that I can browse Products by Suppliers
                         SupplierController.showAllSuppliers();
                         MenuController.showMessage("Please enter ID of the supplier: ");
                         Integer userSupplierInput = InputCollector.getNextInt();
@@ -51,6 +50,8 @@ public class Main {
                     default:
                         break;
                 }
+            } catch (InputMismatchException i) {
+                MenuView.printMessage("Invalid input.");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -68,22 +69,22 @@ public class Main {
                         isShoppingCardMenuLoopActive = false;
                         break;
                     case 1:
-                        // Show items in my Cart
                         ShoppingCartController.showCartItems(shoppingCart);
                         break;
                     case 2:
-                        // Add item
                         ProductController.showAllProducts();
                         MenuController.showMessage("Please select ID of the product:");
                         Integer productIdInput = InputCollector.getNextInt();
 
                         MenuController.showMessage("Please input quantity of the product");
                         Integer productQuantityInput = InputCollector.getNextInt();
-
-                        ShoppingCartController.addToCart(shoppingCart, productIdInput, productQuantityInput);
+                        try {
+                            ShoppingCartController.addToCart(shoppingCart, productIdInput, productQuantityInput);
+                        } catch (ArrayIndexOutOfBoundsException a) {
+                            MenuView.printMessage("No product with such ID or quantity is too big!");
+                        }
                         break;
                     case 3:
-                        // Remove item
                         ShoppingCartController.showCartItems(shoppingCart);
                         MenuController.showMessage("Please select ID of the item:");
                         Integer itemIdInput = InputCollector.getNextInt();
@@ -91,7 +92,6 @@ public class Main {
                         ShoppingCartController.removeFromCart(shoppingCart, itemIdInput);
                         break;
                     case 4:
-                        // Change quantity of item
                         ShoppingCartController.showCartItems(shoppingCart);
                         MenuController.showMessage("Please select ID of the item:");
                         Integer cartItemId = InputCollector.getNextInt();
@@ -102,15 +102,16 @@ public class Main {
                         ShoppingCartController.editQuantity(shoppingCart, cartItemId, newItemQuantity);
                         break;
                     case 5:
-                        // Checkout item
+                        CheckoutController.checkoutItems(shoppingCart);
                         break;
-
                     case 6:
                         // Use Promo Code
                         break;
                     default:
                         break;
                 }
+            } catch (InputMismatchException i) {
+                MenuView.printMessage("Invalid input.");
             } catch (Exception e) {
                 e.printStackTrace();
             }
