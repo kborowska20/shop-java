@@ -8,7 +8,7 @@ public class ProductCategoryController {
     public static ProductCategoryDaoSQLite categoryDao;
 
     public static void showAllCategories() {
-        ProductCategoryView.printProductList(categoryDao.getAll());
+        ProductCategoryView.printCategoryList(categoryDao.getAll());
     }
 
     public static void showCategoryBy(Integer id) {
