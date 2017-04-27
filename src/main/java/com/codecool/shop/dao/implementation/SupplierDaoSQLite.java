@@ -7,13 +7,15 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SupplierDaoSQLite implements SupplierDao {
+    private static DbConnector<Supplier> dbConn = new DbConnector<>();
+
 
     @Override
     public void add(Supplier supplier) {
-        DbConnector<Supplier> dbConn = new DbConnector<>();
 
         try {
             dbConn.insert(supplier);
@@ -27,7 +29,6 @@ public class SupplierDaoSQLite implements SupplierDao {
     public Supplier find(int id) {
         Supplier foundSupplier = null;
         try {
-            DbConnector dbConn = new DbConnector();
             Connection conn = dbConn.connect();
             Statement dbStatement = conn.createStatement();
 
@@ -47,7 +48,6 @@ public class SupplierDaoSQLite implements SupplierDao {
     @Override
     public void remove(int id) {
         try {
-            DbConnector dbConn = new DbConnector();
             Connection conn = dbConn.connect();
             Statement dbStatement = conn.createStatement();
 
@@ -62,6 +62,12 @@ public class SupplierDaoSQLite implements SupplierDao {
 
     @Override
     public List<Supplier> getAll() {
-        return null;
+        List<Supplier> supplierList = new ArrayList<>();
+        try {
+            supplierList = dbConn.getAllSuppliers();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return supplierList;
     }
 }
