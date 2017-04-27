@@ -37,7 +37,7 @@ public class CartItem {
                 '}';
     }
 
-    private Float getTotalPrice() {
+    Float getTotalPrice() {
         return this.product.getDefaultPrice() * this.productQuantity;
     }
 
