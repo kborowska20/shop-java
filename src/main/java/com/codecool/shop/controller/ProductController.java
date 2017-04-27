@@ -1,6 +1,8 @@
 package com.codecool.shop.controller;
 
+import com.codecool.shop.dao.implementation.ProductCategoryDaoSQLite;
 import com.codecool.shop.dao.implementation.ProductDaoSQLite;
+import com.codecool.shop.dao.implementation.SupplierDaoSQLite;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
@@ -8,6 +10,10 @@ import com.codecool.shop.view.ProductView;
 
 public class ProductController {
     private static ProductDaoSQLite productDao = new ProductDaoSQLite();
+    private static ProductCategoryDaoSQLite categoryDao = new ProductCategoryDaoSQLite();
+    private static SupplierDaoSQLite supplierDao = new SupplierDaoSQLite();
+
+
 
     public static void showAllProducts() {
         ProductView.printProductList(productDao.getAll());
@@ -17,11 +23,12 @@ public class ProductController {
         ProductView.printProduct(productDao.find(id));
     }
 
-    public static void getProductsBy(ProductCategory category) {
-        ProductView.printProductList(productDao.getBy(category));
+    public static void getProductsByCategory(Integer id) {
+        ProductView.printProductList(productDao.getBy(categoryDao.find(id)));
     }
-    public static void getProductsBy(Supplier supplier) {
-        ProductView.printProductList(productDao.getBy(supplier));
+
+    public static void getProductsBySupplier(Integer id) {
+        ProductView.printProductList(productDao.getBy(supplierDao.find(id)));
     }
 
     public static void addProduct(Product product) {
