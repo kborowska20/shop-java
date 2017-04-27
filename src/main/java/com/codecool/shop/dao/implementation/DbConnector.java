@@ -16,7 +16,6 @@ class DbConnector<T> {
         try {
             Class.forName("org.sqlite.JDBC");
             conn = DriverManager.getConnection("jdbc:sqlite:src/main/resources/db/Products.db");
-            System.out.println("Connection opened succesfully.");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -129,16 +128,23 @@ class DbConnector<T> {
         try {
             Connection conn = this.connect();
             Statement dbStatement = conn.createStatement();
+
             ResultSet resultSet = dbStatement.executeQuery("SELECT * FROM product;");
 
             if (t instanceof ProductCategory) {
                 category = ((ProductCategory) t);
+                resultSet = dbStatement.executeQuery("SELECT * FROM product WHERE categoryID=" +
+                        category.getId());
             } else if (t instanceof Supplier) {
                 supplier = ((Supplier) t);
+                resultSet = dbStatement.executeQuery("SELECT * FROM product WHERE supplierID=" +
+                        supplier.getId());
             }
 
+
             while (resultSet.next()) {
-                productList.add(new Product(resultSet.getString("name"),
+                productList.add(new Product(resultSet.getInt("id"),
+                        resultSet.getString("name"),
                         resultSet.getFloat("defaultPrice"),
                         resultSet.getString("currencyString"),
                         resultSet.getString("description"),
@@ -165,7 +171,8 @@ class DbConnector<T> {
             ResultSet resultSet = dbStatement.executeQuery("SELECT * FROM productCategory;");
 
             while (resultSet.next()) {
-                categoryList.add(new ProductCategory(resultSet.getString("name"),
+                categoryList.add(new ProductCategory(resultSet.getInt("id"),
+                        resultSet.getString("name"),
                         resultSet.getString("department"),
                         resultSet.getString("description")));
             }
@@ -191,7 +198,8 @@ class DbConnector<T> {
             ResultSet resultSet = dbStatement.executeQuery("SELECT * FROM supplier;");
 
             while (resultSet.next()) {
-                supplierList.add(new Supplier(resultSet.getString("name"),
+                supplierList.add(new Supplier(resultSet.getInt("id"),
+                        resultSet.getString("name"),
                         resultSet.getString("description")));
             }
         } catch (SQLException e) {
