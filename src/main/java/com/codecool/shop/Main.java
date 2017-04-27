@@ -15,49 +15,35 @@ import java.util.Scanner;
 public class Main {
     public static void main(String args[]) {
 
-        Integer option = -1;
+        Boolean isMenuLoopActive = true;
+        while (isMenuLoopActive) {
+            MenuView.viewMainMenu();
+            Integer option = InputCollector.getNextInt();
+            try {
+                switch (option) {
+                    default:
+                        continue;
+                    case 1:
+                        System.out.println("Products");
+                        break;
+                    case 2:
+                        System.out.println("Categories");
+                        break;
+                    case 3:
+                        System.out.println("Suppliers");
+                        break;
+                    case 4:
+                        System.out.println("Basket");
+                        break;
+                    case 0:
+                        isMenuLoopActive = false;
 
-            while (option != 0) {
-                try {
-                    switch (option) {
-                        case 1:
-
-                            //                                ProductDaoSQLite dbConn = new ProductDaoSQLite();
-                            //            for (Product product : dbConn.getAll()) {
-                            //                System.out.println(product.toString());
-                            //            }
-                            //
-                            //            dbConn.add(new Product("Name", 3f,
-                            //                    "PLN", "Desc",
-                            //                    new ProductCategory("Test", "Test", "Test"),
-                            //                    new Supplier("Test", "Test")));
-                            System.out.println("Products");
-                            MenuView.viewMainMenu();
-                            option = InputCollector.getNextInt();
-                        case 2:
-                            System.out.println("Categories");
-                            MenuView.viewMainMenu();
-                            option = InputCollector.getNextInt();
-                        case 3:
-                            System.out.println("Suppliers");
-                            MenuView.viewMainMenu();
-                            option = InputCollector.getNextInt();
-                        case 4:
-                            System.out.println("Basket");
-                            MenuView.viewMainMenu();
-                            option = InputCollector.getNextInt();
-                        case 5:
-                            System.out.println("See You next time !");
-                            System.exit(0);
-                        default:
-                            MenuView.viewMainMenu();
-                            option = InputCollector.getNextInt();
-                    }
-                    } catch(InputMismatchException e){
-                        System.err.println("Not a valid input. Error :");
-                    }
+                }
+            } catch (InputMismatchException e) {
+                System.err.println("Not a valid input. Error :");
             }
         }
     }
+}
 
 
