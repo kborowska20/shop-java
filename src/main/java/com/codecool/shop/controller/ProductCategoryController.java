@@ -5,7 +5,7 @@ import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.view.ProductCategoryView;
 
 public class ProductCategoryController {
-    private static ProductCategoryDaoSQLite categoryDao;
+    private static ProductCategoryDaoSQLite categoryDao = new ProductCategoryDaoSQLite();
 
     public static void showAllCategories() {
         ProductCategoryView.printCategoryList(categoryDao.getAll());
