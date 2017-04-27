@@ -31,6 +31,15 @@ public class ShoppingCart {
         return new ProductIterator();
     }
 
+    public Float calculateCheckoutPrice() {
+        Float checkoutPrice = 0f;
+        for (CartItem cartItem : getItemList()) {
+            checkoutPrice += cartItem.getTotalPrice();
+        }
+        System.out.println(checkoutPrice);
+        return checkoutPrice;
+    }
+
     public void addProduct(CartItem cartItem) {
         itemList.add(cartItem);
     }
