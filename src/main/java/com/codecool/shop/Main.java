@@ -24,17 +24,26 @@ public class Main {
                     default:
                         continue;
                     case 1:
-                        //Products
-//                        MenuView.printProductList();
+                        //View products
+                        MenuView.printProductList();
                         break;
                     case 2:
-                        //Categories
+                        //View products by category
                         break;
                     case 3:
-                        //Suppliers
+                        //View categories
                         break;
                     case 4:
-                        //Basket
+                        //View products by supplier
+                        break;
+                    case 5:
+                        //View supplier
+                        break;
+                    case 6:
+                        //View shopping cart
+                        break;
+                    case 7:
+                        //Shopping cart menu
                         break;
                     case 0:
                         isMenuLoopActive = false;
