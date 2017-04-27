@@ -37,5 +37,11 @@ public class MenuView {
         }
     }
 
+    public static void printCategoryList(List<ProductCategory> categoryList) {
+        for (ProductCategory category : categoryList) {
+            printMessage((categoryList.indexOf(category) + 1) + ": " + category.toString());
+        }
+    }
+
 
 }
