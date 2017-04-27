@@ -1,9 +1,7 @@
 package com.codecool.shop;
 
-import com.codecool.shop.controller.InputCollector;
-import com.codecool.shop.controller.ProductCategoryController;
-import com.codecool.shop.controller.ProductController;
-import com.codecool.shop.controller.SupplierController;
+import com.codecool.shop.controller.*;
+import com.codecool.shop.model.Product;
 import com.codecool.shop.view.MenuView;
 import com.codecool.shop.view.ShoppingCardView;
 
@@ -27,8 +25,9 @@ public class Main {
                     case 2:
                         // So that I can browse Products within any Category
                         ProductCategoryController.showAllCategories();
+                        MenuView.printMessage("Please enter ID of the category: ");
                         Integer userCategoryInput = InputCollector.getNextInt();
-                        // use userCategoryInput to show product within the selected category
+                        ProductController.getProductsByCategory(userCategoryInput);
                         continue;
                     case 3:
                         // View categories
@@ -37,8 +36,9 @@ public class Main {
                     case 4:
                         // So that I can browse Products by Suppliers
                         SupplierController.showAllSuppliers();
+                        MenuView.printMessage("Please enter ID of the supplier: ");
                         Integer userSupplierInput = InputCollector.getNextInt();
-                        // use userSupplierInput to show product within the selected category
+                        ProductController.getProductsBySupplier(userSupplierInput);
                         continue;
                     case 5:
                         // View supplier
