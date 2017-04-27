@@ -15,7 +15,7 @@ public class InputCollector {
         if (inputScan.hasNextInt()) {
             return inputScan.nextInt();
         } else {
-            throw new InputMismatchException();
+            throw new InputMismatchException("Invalid input!");
         }
     }
 
@@ -24,7 +24,7 @@ public class InputCollector {
         if (inputScan.hasNext()) {
             return inputScan.next();
         } else {
-            throw new InputMismatchException();
+            throw new InputMismatchException("Invalid input!");
         }
     }
 
