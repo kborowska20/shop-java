@@ -8,6 +8,6 @@ public class MenuController {
     }
 
     public static void showMessage(String msg) {
-        MenuView.viewMainMenu();
+        System.out.println(msg);
     }
 }
