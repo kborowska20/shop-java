@@ -28,7 +28,7 @@ public class ShoppingCartController {
         shoppingCart.removeProduct(getItemBy(shoppingCart, cartItemId));
     }
 
-    public static CartItem getItemBy(ShoppingCart shoppingCart, Integer id) {
+    private static CartItem getItemBy(ShoppingCart shoppingCart, Integer id) {
         CartItem foundCartItem = null;
         for (CartItem cartItem : shoppingCart.getItemList()) {
             if (cartItem.getId().equals(id)) {
