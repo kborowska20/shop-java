@@ -6,6 +6,10 @@ import java.util.ArrayList;
 public class Supplier extends BaseModel {
     private ArrayList<Product> products;
 
+    public Supplier(String name) {
+        super(name);
+    }
+
     public Supplier(String name, String description) {
         super(name, description);
         this.products = new ArrayList<>();
