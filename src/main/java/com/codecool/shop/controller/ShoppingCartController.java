@@ -41,7 +41,7 @@ public class ShoppingCartController {
 
     public static void editQuantity(ShoppingCart shoppingCart, Integer cartItemId, Integer quantity) {
         if (quantity > 0 && quantity < 250) {
-            shoppingCart.getItemList().get(cartItemId).setProductQuantity(quantity);
+            getItemBy(shoppingCart, cartItemId).setProductQuantity(quantity);
         } else {
             throw new ArithmeticException("Too many items requested!");
         }
