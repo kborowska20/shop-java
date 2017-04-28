@@ -18,14 +18,25 @@ public class ShoppingCartController {
         Product addedProduct = productDao.find(productId);
         if (addedProduct != null && quantity > 0 && quantity < 250) {
             shoppingCart.addProduct(new CartItem(addedProduct, quantity));
-        }
-        else {
+        } else {
             throw new ArrayIndexOutOfBoundsException();
         }
     }
 
     public static void removeFromCart(ShoppingCart shoppingCart, Integer cartItemId) {
-        shoppingCart.removeProduct(shoppingCart.getItemList().get(cartItemId));
+
+        shoppingCart.removeProduct(getItemBy(shoppingCart, cartItemId));
+    }
+
+    public static CartItem getItemBy(ShoppingCart shoppingCart, Integer id) {
+        CartItem foundCartItem = null;
+        for (CartItem cartItem : shoppingCart.getItemList()) {
+            if (cartItem.getId().equals(id)) {
+                foundCartItem = cartItem;
+                break;
+            }
+        }
+        return foundCartItem;
     }
 
     public static void editQuantity(ShoppingCart shoppingCart, Integer cartItemId, Integer quantity) {
