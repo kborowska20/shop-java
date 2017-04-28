@@ -14,6 +14,7 @@ public class CheckoutController {
         MenuView.printMessage("Please enter your city:");
         InputCollector.getNext();
 
+        shoppingCart.getItemList().clear();
         MenuView.printMessage("Transaction confirmed! Thank you for buying from our shop.");
     }
 }
