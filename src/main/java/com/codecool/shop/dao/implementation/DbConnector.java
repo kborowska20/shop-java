@@ -122,25 +122,23 @@ class DbConnector<T> {
 
     List<Product> filterProductsBy(T t) throws SQLException {
         List<Product> productList = new ArrayList<>();
-        Supplier supplier = new Supplier(null, null);
-        ProductCategory category = new ProductCategory(null, null, null);
+        ProductCategoryDaoSQLite categoryDao = new ProductCategoryDaoSQLite();
+        SupplierDaoSQLite supplierDao = new SupplierDaoSQLite();
 
         try {
             Connection conn = this.connect();
             Statement dbStatement = conn.createStatement();
 
-            ResultSet resultSet = dbStatement.executeQuery("SELECT * FROM product;");
+            String query = "SELECT * FROM PRODUCT ";
 
             if (t instanceof ProductCategory) {
-                category = ((ProductCategory) t);
-                resultSet = dbStatement.executeQuery("SELECT * FROM product WHERE categoryID=" +
-                        category.getId());
+                query += "WHERE product.categoryID=" + ((ProductCategory) t).getId();
             } else if (t instanceof Supplier) {
-                supplier = ((Supplier) t);
-                resultSet = dbStatement.executeQuery("SELECT * FROM product WHERE supplierID=" +
-                        supplier.getId());
+                query += " WHERE product.supplierID=" + ((Supplier) t).getId();
             }
 
+            System.out.println(query);
+            ResultSet resultSet = dbStatement.executeQuery(query);
 
             while (resultSet.next()) {
                 productList.add(new Product(resultSet.getInt("id"),
@@ -148,7 +146,8 @@ class DbConnector<T> {
                         resultSet.getFloat("defaultPrice"),
                         resultSet.getString("currencyString"),
                         resultSet.getString("description"),
-                        category, supplier));
+                        (t instanceof ProductCategory) ? ((ProductCategory) t) : categoryDao.find(resultSet.getInt(6)),
+                        (t instanceof Supplier) ? ((Supplier) t) : supplierDao.find(resultSet.getInt(7))));
             }
 
             resultSet.close();
@@ -156,7 +155,7 @@ class DbConnector<T> {
             closeConnection(conn);
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new SQLException("Couldn't delete from database!");
+            throw new SQLException("Couldn't fetch from database!");
 
         }
         return productList;
