@@ -76,7 +76,7 @@ public class Main {
                         MenuController.showMessage("Please select ID of the product:");
                         Integer productIdInput = InputCollector.getNextInt();
 
-                        MenuController.showMessage("Please input quantity of the product");
+                        MenuController.showMessage("Please input quantity of the product (between 1 and 250)");
                         Integer productQuantityInput = InputCollector.getNextInt();
                         try {
                             ShoppingCartController.addToCart(shoppingCart, productIdInput, productQuantityInput);
