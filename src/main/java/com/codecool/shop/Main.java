@@ -8,6 +8,7 @@ import com.codecool.shop.view.ShoppingCartView;
 import java.util.InputMismatchException;
 
 public class Main {
+
     public static void main(String args[]) {
         ShoppingCart shoppingCart = new ShoppingCart();
 
@@ -23,19 +24,13 @@ public class Main {
                         ProductController.showAllProducts();
                         break;
                     case 2:
-                        ProductCategoryController.showAllCategories();
-                        MenuController.showMessage("Please enter ID of the category: ");
-                        Integer userCategoryInput = InputCollector.getNextInt();
-                        ProductController.getProductsByCategory(userCategoryInput);
+                        ProductController.getProductsByCategory();
                         break;
                     case 3:
                         ProductCategoryController.showAllCategories();
                         break;
                     case 4:
-                        SupplierController.showAllSuppliers();
-                        MenuController.showMessage("Please enter ID of the supplier: ");
-                        Integer userSupplierInput = InputCollector.getNextInt();
-                        ProductController.getProductsBySupplier(userSupplierInput);
+                        ProductController.getProductsBySupplier();
                         break;
                     case 5:
                         // View supplier
@@ -72,34 +67,13 @@ public class Main {
                         ShoppingCartController.showCartItems(shoppingCart);
                         break;
                     case 2:
-                        ProductController.showAllProducts();
-                        MenuController.showMessage("Please select ID of the product:");
-                        Integer productIdInput = InputCollector.getNextInt();
-
-                        MenuController.showMessage("Please input quantity of the product (between 1 and 250)");
-                        Integer productQuantityInput = InputCollector.getNextInt();
-                        try {
-                            ShoppingCartController.addToCart(shoppingCart, productIdInput, productQuantityInput);
-                        } catch (ArrayIndexOutOfBoundsException a) {
-                            MenuView.printMessage("No product with such ID or quantity is too big!");
-                        }
+                        ShoppingCartController.addToCart(shoppingCart);
                         break;
                     case 3:
-                        ShoppingCartController.showCartItems(shoppingCart);
-                        MenuController.showMessage("Please select ID of the item:");
-                        Integer itemIdInput = InputCollector.getNextInt();
-
-                        ShoppingCartController.removeFromCart(shoppingCart, itemIdInput);
+                        ShoppingCartController.removeFromCart(shoppingCart);
                         break;
                     case 4:
-                        ShoppingCartController.showCartItems(shoppingCart);
-                        MenuController.showMessage("Please select ID of the item:");
-                        Integer cartItemId = InputCollector.getNextInt();
-
-                        MenuController.showMessage("Please input new quantity:");
-                        Integer newItemQuantity = InputCollector.getNextInt();
-
-                        ShoppingCartController.editQuantity(shoppingCart, cartItemId, newItemQuantity);
+                        ShoppingCartController.editQuantity(shoppingCart);
                         break;
                     case 5:
                         CheckoutController.checkoutItems(shoppingCart);
@@ -112,6 +86,8 @@ public class Main {
                 }
             } catch (InputMismatchException i) {
                 MenuView.printMessage("Invalid input.");
+            } catch (ArrayIndexOutOfBoundsException a) {
+                MenuView.printMessage("No product with such ID or quantity is too big!");
             } catch (Exception e) {
                 e.printStackTrace();
             }

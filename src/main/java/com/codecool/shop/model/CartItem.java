@@ -23,8 +23,16 @@ public class CartItem {
         return idCount++;
     }
 
+    public Integer getProductQuantity() {
+        return this.productQuantity;
+    }
+
     public void setProductQuantity(Integer productQuantity) {
         this.productQuantity = productQuantity;
+    }
+
+    public void addToProductQuantity(Integer productQuantity) {
+        this.productQuantity += productQuantity;
     }
 
     @Override

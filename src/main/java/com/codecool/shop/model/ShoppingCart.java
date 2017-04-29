@@ -41,7 +41,15 @@ public class ShoppingCart {
     }
 
     public void addProduct(CartItem cartItem) {
-        itemList.add(cartItem);
+        if (itemList.contains(cartItem)) {
+            for (CartItem addedItem : itemList) {
+                if (addedItem == cartItem) {
+                    addedItem.addToProductQuantity(cartItem.getProductQuantity());
+                }
+            }
+        } else {
+            itemList.add(cartItem);
+        }
     }
 
     public Boolean removeProduct(CartItem cartItem) {

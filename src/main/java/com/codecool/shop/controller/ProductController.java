@@ -15,7 +15,6 @@ public class ProductController {
     private static SupplierDaoSQLite supplierDao = new SupplierDaoSQLite();
 
 
-
     public static void showAllProducts() {
         ProductView.printProductList(productDao.getAll());
     }
@@ -24,12 +23,20 @@ public class ProductController {
         ProductView.printProduct(productDao.find(id));
     }
 
-    public static void getProductsByCategory(Integer id) {
-        ProductView.printProductList(productDao.getBy(categoryDao.find(id)));
+    public static void getProductsByCategory() {
+        ProductCategoryController.showAllCategories();
+        MenuController.showMessage("Please enter ID of the category: ");
+        Integer userCategoryIdInput = InputCollector.getNextInt();
+
+        ProductView.printProductList(productDao.getBy(categoryDao.find(userCategoryIdInput)));
     }
 
-    public static void getProductsBySupplier(Integer id) {
-        ProductView.printProductList(productDao.getBy(supplierDao.find(id)));
+    public static void getProductsBySupplier() {
+        SupplierController.showAllSuppliers();
+        MenuController.showMessage("Please enter ID of the supplier: ");
+        Integer userSupplierIdInput = InputCollector.getNextInt();
+
+        ProductView.printProductList(productDao.getBy(supplierDao.find(userSupplierIdInput)));
     }
 
     @Ignore
