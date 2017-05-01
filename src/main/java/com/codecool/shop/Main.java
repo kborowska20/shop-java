@@ -9,11 +9,12 @@ import java.util.InputMismatchException;
 
 public class Main {
 
+    private static Boolean isMenuLoopActive = true;
+
     public static void main(String args[]) {
         ShoppingCart shoppingCart = new ShoppingCart();
 
-        Boolean isMenuLoopActive = true;
-        while (isMenuLoopActive) {
+        while (isAppRunning()) {
             MenuController.getMenu();
 
             try {
@@ -21,15 +22,18 @@ public class Main {
 
                 switch (mainMenuInput) {
                     case 1:
+                        // FIXME #1: NullPointerException
                         ProductController.showAllProducts();
                         break;
                     case 2:
+                        // FIXME #2: NullPointerException when ID entered is out of range
                         ProductController.getProductsByCategory();
                         break;
                     case 3:
                         ProductCategoryController.showAllCategories();
                         break;
                     case 4:
+                        // FIXME #3: NullPointerException when ID entered is out of range
                         ProductController.getProductsBySupplier();
                         break;
                     case 5:
@@ -40,7 +44,7 @@ public class Main {
                         shoppingCartMenu(shoppingCart);
                         break;
                     case 0:
-                        isMenuLoopActive = false;
+                        stopApp();
                         break;
                     default:
                         break;
@@ -67,15 +71,18 @@ public class Main {
                         ShoppingCartController.showCartItems(shoppingCart);
                         break;
                     case 2:
+                        // FIXME #4: NullPointerException when trying to add an item to cart
                         ShoppingCartController.addToCart(shoppingCart);
                         break;
                     case 3:
                         ShoppingCartController.removeFromCart(shoppingCart);
                         break;
                     case 4:
+                        // FIXME #5: Catch ArithmethicException in menu
                         ShoppingCartController.editQuantity(shoppingCart);
                         break;
                     case 5:
+                        // FIXME #6: Look into foolproofing
                         CheckoutController.checkoutItems(shoppingCart);
                         break;
                     case 6:
@@ -92,5 +99,13 @@ public class Main {
                 e.printStackTrace();
             }
         }
+    }
+
+    private static void stopApp() {
+        isMenuLoopActive = false;
+    }
+
+    private static Boolean isAppRunning() {
+        return isMenuLoopActive;
     }
 }
