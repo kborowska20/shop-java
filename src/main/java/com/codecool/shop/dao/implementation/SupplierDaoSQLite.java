@@ -37,6 +37,8 @@ public class SupplierDaoSQLite implements SupplierDao {
                 foundSupplier = new Supplier(resultSet.getInt("id"),
                         resultSet.getString("name"),
                         resultSet.getString("description"));
+            } else {
+                foundSupplier = new Supplier("None");
             }
 
         } catch (SQLException e) {
