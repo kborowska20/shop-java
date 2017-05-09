@@ -31,19 +31,19 @@ class ShopApp {
 
 //        get("basket/:id/edit", cartController::handleEditQuantityRequest, new ThymeleafTemplateEngine());
 
-        get("/category/:cID", productController::renderProducts, new ThymeleafTemplateEngine());
-
-        get("/supplier/:sID", productController::renderProducts, new ThymeleafTemplateEngine());
-
 //        get("basket/checkout", cartController::renderItemCheckout, new ThymeleafTemplateEngine());
 
 //        post("basket/checkout", cartController::handleCheckoutRequest, new ThymeleafTemplateEngine());
 
+        get("/category/:cID", productController::renderProducts, new ThymeleafTemplateEngine());
+
+        get("/supplier/:sID", productController::renderProducts, new ThymeleafTemplateEngine());
+
 //        get("/categories", categoryController::renderAllCategories, new ThymeleafTemplateEngine());
 
-//        get("/suppliers", supplierController::renderAllSuppliers, new ThymeleafTemplateEngine());
+        get("/suppliers", supplierController::renderAllSuppliers, new ThymeleafTemplateEngine());
 
-//        get("/basket", cartController::renderCartItems, new ThymeleafTemplateEngine());
+        get("/basket", cartController::renderCartItems, new ThymeleafTemplateEngine());
 
         get("/", productController::renderProducts, new ThymeleafTemplateEngine());
 
