@@ -36,6 +36,8 @@ public class ProductCategoryDaoSQLite implements ProductCategoryDao {
                         resultSet.getString("name"),
                         resultSet.getString("department"),
                         resultSet.getString("description"));
+            } else {
+                foundCategory = new ProductCategory("None");
             }
 
         } catch (SQLException e) {

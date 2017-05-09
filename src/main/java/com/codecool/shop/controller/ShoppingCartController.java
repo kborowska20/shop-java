@@ -4,17 +4,17 @@ import com.codecool.shop.dao.implementation.ProductDaoSQLite;
 import com.codecool.shop.model.CartItem;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ShoppingCart;
+import com.codecool.shop.view.MenuView;
 import com.codecool.shop.view.ShoppingCartView;
 
 public class ShoppingCartController {
     private static ProductDaoSQLite productDao = new ProductDaoSQLite();
 
-    public static void showCartItems(ShoppingCart shoppingCart) {
+    public static void renderCartItems(ShoppingCart shoppingCart) {
         ShoppingCartView.printCartItemList(shoppingCart.getItemList());
     }
 
-    public static void addToCart(ShoppingCart shoppingCart) {
-        ProductController.showAllProducts();
+    public static void handleAddToCartRequest(ShoppingCart shoppingCart) {
         MenuController.showMessage("Please select ID of the product:");
         Integer productIdInput = InputCollector.getNextInt();
 
@@ -29,8 +29,8 @@ public class ShoppingCartController {
         }
     }
 
-    public static void removeFromCart(ShoppingCart shoppingCart) {
-        ShoppingCartController.showCartItems(shoppingCart);
+    public static void handleRemoveFromCartRequest(ShoppingCart shoppingCart) {
+        ShoppingCartController.renderCartItems(shoppingCart);
         MenuController.showMessage("Please select ID of the item:");
         Integer itemIdInput = InputCollector.getNextInt();
 
@@ -48,8 +48,8 @@ public class ShoppingCartController {
         return foundCartItem;
     }
 
-    public static void editQuantity(ShoppingCart shoppingCart) {
-        ShoppingCartController.showCartItems(shoppingCart);
+    public static void handleEditQuantityRequest(ShoppingCart shoppingCart) {
+        ShoppingCartController.renderCartItems(shoppingCart);
         MenuController.showMessage("Please select ID of the item:");
         Integer cartItemId = InputCollector.getNextInt();
 
@@ -62,5 +62,19 @@ public class ShoppingCartController {
         } else {
             throw new ArithmeticException("Too many items requested!");
         }
+    }
+
+
+    public static void handleCheckoutRequest(ShoppingCart shoppingCart) {
+        MenuView.printMessage("You're about to checkout items for a total of: " +
+                shoppingCart.calculateCheckoutPrice());
+
+        MenuView.printMessage("Please enter your full name:");
+        InputCollector.getNext();
+        MenuView.printMessage("Please enter your city:");
+        InputCollector.getNext();
+
+        shoppingCart.getItemList().clear();
+        MenuView.printMessage("Transaction confirmed! Thank you for buying from our shop.");
     }
 }
