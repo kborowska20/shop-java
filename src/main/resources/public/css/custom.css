@@ -60,3 +60,9 @@
 {
     margin: 0 0 11px;
 }
+
+#banner {
+    color: #ffffff;
+    text-shadow: 0 0 10px rgb(0, 0, 0);
+    background: url("img/banner.jpg") fixed center no-repeat;
+}
