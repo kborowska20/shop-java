@@ -15,6 +15,10 @@ public class CartItem {
         this.totalPrice = getTotalPrice();
     }
 
+    public Product getProduct() {
+        return product;
+    }
+
     public Integer getId() {
         return id;
     }
