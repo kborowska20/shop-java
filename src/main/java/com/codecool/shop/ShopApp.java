@@ -1,51 +1,43 @@
 
 package com.codecool.shop;
 
-import com.codecool.shop.controller.ProductCategoryController;
-import com.codecool.shop.controller.ProductController;
-import com.codecool.shop.controller.ShoppingCartController;
-import com.codecool.shop.controller.SupplierController;
+import com.codecool.shop.controller.*;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 import static spark.Spark.*;
 
 class ShopApp {
 
-    private ProductController productController;
-    private ProductCategoryController categoryController;
-    private SupplierController supplierController;
-    private ShoppingCartController cartController;
-
     ShopApp() {
         port(8888);
         staticFileLocation("/public");
+        ThymeleafController thymeleafController = new ThymeleafController();
+        ThymeleafTemplateEngine thymeleafEngine = thymeleafController.getThymeleafEngine();
 
-        categoryController = new ProductCategoryController();
-        supplierController = new SupplierController();
-        cartController = new ShoppingCartController();
-        productController = new ProductController();
+        ProductCategoryController categoryController = new ProductCategoryController();
+        SupplierController supplierController = new SupplierController();
+        ShoppingCartController cartController = new ShoppingCartController();
+        ProductController productController = new ProductController();
 
-//        post("basket/:id/add", cartController::handleAddToCartRequest, new ThymeleafTemplateEngine());
+        get("/basket/:pid/add", cartController::handleAddToCartRequest, thymeleafEngine);
 
-//        get("basket/:id/remove", cartController::handleRemoveFromCartRequest, new ThymeleafTemplateEngine());
+        get("/basket/:pid/remove", cartController::handleRemoveFromCartRequest, thymeleafEngine);
 
-//        get("basket/:id/edit", cartController::handleEditQuantityRequest, new ThymeleafTemplateEngine());
+        get("/basket/:pid/edit", cartController::handleEditQuantityRequest, thymeleafEngine);
 
-//        get("basket/checkout", cartController::renderItemCheckout, new ThymeleafTemplateEngine());
+        post("/basket/checkout", cartController::handleCheckoutRequest, thymeleafEngine);
 
-//        post("basket/checkout", cartController::handleCheckoutRequest, new ThymeleafTemplateEngine());
+        get("/category/:cid", productController::renderProducts, thymeleafEngine);
 
-        get("/category/:cID", productController::renderProducts, new ThymeleafTemplateEngine());
+        get("/supplier/:sid", productController::renderProducts, thymeleafEngine);
 
-        get("/supplier/:sID", productController::renderProducts, new ThymeleafTemplateEngine());
+//        get("/categories", categoryController::renderAllCategories, thymeleafEngine);
 
-//        get("/categories", categoryController::renderAllCategories, new ThymeleafTemplateEngine());
+        get("/suppliers", supplierController::renderAllSuppliers, thymeleafEngine);
 
-        get("/suppliers", supplierController::renderAllSuppliers, new ThymeleafTemplateEngine());
+        get("/basket", cartController::renderCartItems, thymeleafEngine);
 
-        get("/basket", cartController::renderCartItems, new ThymeleafTemplateEngine());
-
-        get("/", productController::renderProducts, new ThymeleafTemplateEngine());
+        get("/", productController::renderProducts, thymeleafEngine);
 
     }
 }
