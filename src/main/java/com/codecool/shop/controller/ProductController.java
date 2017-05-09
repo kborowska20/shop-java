@@ -4,8 +4,8 @@ import com.codecool.shop.dao.implementation.ProductCategoryDaoSQLite;
 import com.codecool.shop.dao.implementation.ProductDaoSQLite;
 import com.codecool.shop.dao.implementation.SupplierDaoSQLite;
 import com.codecool.shop.model.Product;
-import com.codecool.shop.view.ProductView;
-import jdk.nashorn.internal.ir.annotations.Ignore;
+import com.codecool.shop.model.ProductCategory;
+import com.codecool.shop.model.Supplier;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -19,34 +19,25 @@ public class ProductController {
     private static SupplierDaoSQLite supplierDao = new SupplierDaoSQLite();
 
 
-    public ModelAndView renderAllProducts(Request req, Response res) {
+    public ModelAndView renderProducts(Request req, Response res) {
         Map<String, Object> params = new HashMap<>();
-        params.put("productList", productDao.getAll());
 
+        if (req.params().containsKey(":cid")) {
+            Integer categoryID = Integer.parseInt(req.params(":cid"));
+            ProductCategory chosenCategory = categoryDao.find(categoryID);
+
+            params.put("productList", productDao.getBy(chosenCategory));
+        } else if (req.params().containsKey(":sid")) {
+            Integer supplierID = Integer.parseInt(req.params(":sid"));
+            Supplier supplier = supplierDao.find(supplierID);
+
+            params.put("productList", productDao.getBy(supplier));
+        } else {
+            params.put("productList", productDao.getAll());
+        }
         return new ModelAndView(params, "product/index");
     }
 
-    public static void findProductBy(Integer id) {
-        ProductView.printProduct(productDao.find(id));
-    }
-
-    public static void renderAllProducts() {
-        ProductCategoryController.renderAllCategories();
-        MenuController.showMessage("Please enter ID of the category: ");
-        Integer userCategoryIdInput = InputCollector.getNextInt();
-
-        ProductView.printProductList(productDao.getBy(categoryDao.find(userCategoryIdInput)));
-    }
-
-    public static void getProductsBySupplier() {
-        SupplierController.renderAllSuppliers();
-        MenuController.showMessage("Please enter ID of the supplier: ");
-        Integer userSupplierIdInput = InputCollector.getNextInt();
-
-        ProductView.printProductList(productDao.getBy(supplierDao.find(userSupplierIdInput)));
-    }
-
-    @Ignore
     public static void addProduct(Product product) {
         productDao.add(product);
     }
