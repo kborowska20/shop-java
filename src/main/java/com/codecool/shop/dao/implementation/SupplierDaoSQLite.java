@@ -56,6 +56,8 @@ public class SupplierDaoSQLite implements SupplierDao {
                 foundSupplier = new Supplier("None");
             }
 
+            dbStatement.close();
+            dbConn.closeConnection(conn);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -80,8 +82,20 @@ public class SupplierDaoSQLite implements SupplierDao {
     @Override
     public List<Supplier> getAll() {
         List<Supplier> supplierList = new ArrayList<>();
+
         try {
-            supplierList = dbConn.getAllSuppliers();
+            Connection conn = dbConn.connect();
+            Statement dbStatement = conn.createStatement();
+            ResultSet resultSet = dbStatement.executeQuery("SELECT * FROM supplier;");
+
+            while (resultSet.next()) {
+                supplierList.add(new Supplier(resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("description")));
+            }
+
+            dbStatement.close();
+            dbConn.closeConnection(conn);
         } catch (SQLException e) {
             e.printStackTrace();
         }

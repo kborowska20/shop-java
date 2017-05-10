@@ -66,6 +66,9 @@ public class ProductDaoSQLite implements ProductDao {
                         supplierDao.find(resultSet.getInt("supplierID")));
             }
 
+            resultSet.close();
+            dbStatement.close();
+            dbConn.closeConnection(conn);
         } catch (SQLException e) {
             e.printStackTrace();
         }

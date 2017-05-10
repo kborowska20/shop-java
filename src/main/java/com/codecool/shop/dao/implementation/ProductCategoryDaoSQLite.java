@@ -58,6 +58,9 @@ public class ProductCategoryDaoSQLite implements ProductCategoryDao {
                 foundCategory = new ProductCategory("None");
             }
 
+            resultSet.close();
+            dbStatement.close();
+            dbConn.closeConnection(conn);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -76,11 +79,26 @@ public class ProductCategoryDaoSQLite implements ProductCategoryDao {
     @Override
     public List<ProductCategory> getAll() {
         List<ProductCategory> categoryList = new ArrayList<>();
+
         try {
-            categoryList = dbConn.getAllCategories();
+            Connection conn = dbConn.connect();
+            Statement dbStatement = conn.createStatement();
+            ResultSet resultSet = dbStatement.executeQuery("SELECT * FROM productCategory;");
+
+            while (resultSet.next()) {
+                categoryList.add(new ProductCategory(resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("department"),
+                        resultSet.getString("description")));
+            }
+
+            resultSet.close();
+            dbStatement.close();
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return categoryList;
+
     }
 }
