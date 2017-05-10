@@ -21,6 +21,7 @@ public class ProductController {
 
     public ModelAndView renderProducts(Request req, Response res) {
         Map<String, Object> params = new HashMap<>();
+        params.put("supplierList", supplierDao.getAll());
 
         if (req.params().containsKey(":cid")) {
             Integer categoryID = Integer.parseInt(req.params(":cid"));

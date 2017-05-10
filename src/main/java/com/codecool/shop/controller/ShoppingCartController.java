@@ -1,7 +1,9 @@
 package com.codecool.shop.controller;
 
 import com.codecool.shop.dao.ProductDao;
+import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.dao.implementation.ProductDaoSQLite;
+import com.codecool.shop.dao.implementation.SupplierDaoSQLite;
 import com.codecool.shop.model.CartItem;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ShoppingCart;
@@ -16,10 +18,13 @@ public class ShoppingCartController {
     private ProductController productController = new ProductController();
     private ProductDao productDao = new ProductDaoSQLite();
     private ShoppingCart shoppingCart = new ShoppingCart();
+    private SupplierDao supplierDao = new SupplierDaoSQLite();
+
 
     public ModelAndView renderCartItems(Request req, Response res) {
         Map<String, Object> params = new HashMap<>();
         params.put("cartItemList", shoppingCart.getItemList());
+        params.put("supplierList", supplierDao.getAll());
 
         return new ModelAndView(params, "basket/index");
     }
