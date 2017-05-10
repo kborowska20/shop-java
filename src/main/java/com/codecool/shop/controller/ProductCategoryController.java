@@ -1,6 +1,7 @@
 package com.codecool.shop.controller;
 
 import com.codecool.shop.dao.implementation.ProductCategoryDaoSQLite;
+import com.codecool.shop.dao.implementation.SupplierDaoSQLite;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.view.ProductCategoryView;
 import spark.ModelAndView;
@@ -11,10 +12,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ProductCategoryController {
+    private static SupplierDaoSQLite supplierDao = new SupplierDaoSQLite();
     private static ProductCategoryDaoSQLite categoryDao = new ProductCategoryDaoSQLite();
 
     public ModelAndView renderAllCategories(Request req, Response res) {
         Map<String, Object> params = new HashMap<>();
+        params.put("supplierList", supplierDao.getAll());
         params.put("categoryList", categoryDao.getAll());
         return new ModelAndView(params, "category/index");
     }
