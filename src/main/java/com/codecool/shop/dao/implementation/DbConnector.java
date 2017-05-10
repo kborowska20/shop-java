@@ -147,7 +147,12 @@ class DbConnector<T> {
                         resultSet.getString("currencyString"),
                         resultSet.getString("description"),
                         (t instanceof ProductCategory) ? ((ProductCategory) t) : categoryDao.find(resultSet.getInt(6)),
-                        (t instanceof Supplier) ? ((Supplier) t) : supplierDao.find(resultSet.getInt(7))));
+                        (t instanceof Supplier) ? ((Supplier) t) : supplierDao.find(resultSet.getInt(7)),
+                        resultSet.getString("link")
+
+                        )
+
+                );
             }
 
             resultSet.close();
