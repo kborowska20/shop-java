@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta name="author" content="Codecool"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="icon" type="image/jpg" href="https://emoji.slack-edge.com/T2H36UEKA/codecool/9e6657ee7642499c.jpg" />
+
     <title>Codecool Shoppe</title>
 
     <!-- Latest compiled and minified Jquery -->
@@ -37,26 +37,24 @@
 <div class="container">
 
     <div class="well well-sm">
-        <strong>All products</strong>
+        <strong>Shopping Cart</strong>
     </div>
 
     <div id="products" class="row list-group">
 
-        <div class="item col-xs-4 col-lg-4" th:each="prod,iterStat : ${productList}">
+        <!--/*@thymesVar id="cartItemList" type="List<CartItem>"*/-->
+        <div class="item col-xs-4 col-lg-4" th:each="item : ${cartItemList}">
             <div class="thumbnail">
-                <!--<img class="group list-group-image" src="http://placehold.it/400x250/000/fff"-->
-                <!--th:attr="src='/img/product_' + ${prod.getId()} + '.jpg'" alt=""/>-->
                 <div class="caption">
-                    <h4 class="group inner list-group-item-heading" th:text="${prod.getName()}">Product name</h4>
-                    <p class="group inner list-group-item-text" th:text="${prod.getDescription()}">Product
-                        description... </p>
+                    <h4 class="group inner list-group-item-heading" th:text="${item.getProduct().getName()}">Name</h4>
+                    <p class="group inner list-group-item-text" th:text="${item.getProduct().getDescription()}">Description</p>
                     <div class="row">
                         <div class="col-xs-12 col-md-6">
-                            <p class="lead" th:text="${prod.getDefaultPrice() + '0 PLN'}">100 USD</p>
+                            <p class="lead" th:text="${item.getProduct().getPrice()}">100 USD</p>
                         </div>
                         <div class="col-xs-12 col-md-6">
-                            <a class="btn btn-success" th:href="@{'~/basket/' + ${prod.getId()} + '/add'}">Add to
-                                cart</a>
+                            <a class="btn btn-success" th:href="@{'~/basket/' + ${item.getId()} + '/add'}">
+                                Add to cart</a>
                         </div>
                     </div>
                 </div>

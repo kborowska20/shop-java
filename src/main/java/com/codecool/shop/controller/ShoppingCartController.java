@@ -1,43 +1,58 @@
 package com.codecool.shop.controller;
 
+import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.implementation.ProductDaoSQLite;
 import com.codecool.shop.model.CartItem;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ShoppingCart;
-import com.codecool.shop.view.MenuView;
-import com.codecool.shop.view.ShoppingCartView;
+import spark.ModelAndView;
+import spark.Request;
+import spark.Response;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ShoppingCartController {
-    private static ProductDaoSQLite productDao = new ProductDaoSQLite();
+    private ProductController productController = new ProductController();
+    private ProductDao productDao = new ProductDaoSQLite();
+    private ShoppingCart shoppingCart = new ShoppingCart();
 
-    public static void renderCartItems(ShoppingCart shoppingCart) {
-        ShoppingCartView.printCartItemList(shoppingCart.getItemList());
+    public ModelAndView renderCartItems(Request req, Response res) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("cartItemList", shoppingCart.getItemList());
+
+        return new ModelAndView(params, "basket/index");
     }
 
-    public static void handleAddToCartRequest(ShoppingCart shoppingCart) {
-        MenuController.showMessage("Please select ID of the product:");
-        Integer productIdInput = InputCollector.getNextInt();
+    public ModelAndView handleAddToCartRequest(Request req, Response res) {
+        Integer productID = Integer.parseInt(req.params().get(":pid"));
 
-        MenuController.showMessage("Please input quantity of the product (between 1 and 250)");
-        Integer productQuantityInput = InputCollector.getNextInt();
+        if (!(productID == null) || !productID.equals(0)) {
+            Product addedProduct = productDao.find(productID);
+            shoppingCart.addProduct(new CartItem(addedProduct, 1));
 
-        Product addedProduct = productDao.find(productIdInput);
-        if (addedProduct != null && productQuantityInput > 0 && productQuantityInput < 250) {
-            shoppingCart.addProduct(new CartItem(addedProduct, productQuantityInput));
+            res.status(201);
         } else {
-            throw new ArrayIndexOutOfBoundsException();
+            res.status(400);
         }
+        res.redirect("/");
+        return productController.renderProducts(req, res);
     }
 
-    public static void handleRemoveFromCartRequest(ShoppingCart shoppingCart) {
-        ShoppingCartController.renderCartItems(shoppingCart);
-        MenuController.showMessage("Please select ID of the item:");
-        Integer itemIdInput = InputCollector.getNextInt();
+    public ModelAndView handleRemoveFromCartRequest(Request req, Response res) {
+        Integer itemID = Integer.parseInt(req.params().get(":pid"));
 
-        shoppingCart.removeProduct(getItemBy(shoppingCart, itemIdInput));
+        if (!(itemID == null) || !itemID.equals(0)) {
+            shoppingCart.removeProduct(getItemBy(itemID));
+            res.status(201);
+        } else {
+            res.status(400);
+        }
+        res.redirect("/");
+        return productController.renderProducts(req, res);
     }
 
-    private static CartItem getItemBy(ShoppingCart shoppingCart, Integer id) {
+    private CartItem getItemBy(Integer id) {
         CartItem foundCartItem = null;
         for (CartItem cartItem : shoppingCart.getItemList()) {
             if (cartItem.getId().equals(id)) {
@@ -48,33 +63,27 @@ public class ShoppingCartController {
         return foundCartItem;
     }
 
-    public static void handleEditQuantityRequest(ShoppingCart shoppingCart) {
-        ShoppingCartController.renderCartItems(shoppingCart);
-        MenuController.showMessage("Please select ID of the item:");
-        Integer cartItemId = InputCollector.getNextInt();
+    public ModelAndView handleEditQuantityRequest(Request req, Response res) {
+        Integer itemID = Integer.parseInt(req.params().get(":pid"));
+        Integer newItemQuantity = Integer.parseInt(req.params().get("item-quantity"));
 
-        MenuController.showMessage("Please input new quantity:");
-        Integer newItemQuantity = InputCollector.getNextInt();
+        if (!(itemID == null) && newItemQuantity > 0 && newItemQuantity < 250) {
+            getItemBy(itemID).setProductQuantity(newItemQuantity);
 
-
-        if (newItemQuantity > 0 && newItemQuantity < 250) {
-            getItemBy(shoppingCart, cartItemId).setProductQuantity(newItemQuantity);
+            res.status(201);
         } else {
-            throw new ArithmeticException("Too many items requested!");
+            res.status(400);
         }
+        res.redirect("/basket");
+        return productController.renderProducts(req, res);
     }
 
 
-    public static void handleCheckoutRequest(ShoppingCart shoppingCart) {
-        MenuView.printMessage("You're about to checkout items for a total of: " +
-                shoppingCart.calculateCheckoutPrice());
-
-        MenuView.printMessage("Please enter your full name:");
-        InputCollector.getNext();
-        MenuView.printMessage("Please enter your city:");
-        InputCollector.getNext();
-
+    public ModelAndView handleCheckoutRequest(Request req, Response res) {
         shoppingCart.getItemList().clear();
-        MenuView.printMessage("Transaction confirmed! Thank you for buying from our shop.");
+
+        res.redirect("/", 201);
+        return productController.renderProducts(req, res);
+
     }
 }
