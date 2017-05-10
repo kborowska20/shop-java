@@ -6,18 +6,19 @@ import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 import static spark.Spark.*;
 
+
 class ShopApp {
 
     ShopApp() {
         port(8888);
         staticFileLocation("/public");
-        ThymeleafController thymeleafController = new ThymeleafController();
-        ThymeleafTemplateEngine thymeleafEngine = thymeleafController.getThymeleafEngine();
 
         ProductCategoryController categoryController = new ProductCategoryController();
         SupplierController supplierController = new SupplierController();
         ShoppingCartController cartController = new ShoppingCartController();
         ProductController productController = new ProductController();
+
+        ThymeleafTemplateEngine thymeleafEngine = new ThymeleafTemplateEngine();
 
         get("/basket/:pid/add", cartController::handleAddToCartRequest, thymeleafEngine);
 
@@ -38,6 +39,5 @@ class ShopApp {
         get("/basket", cartController::renderCartItems, thymeleafEngine);
 
         get("/", productController::renderProducts, thymeleafEngine);
-
     }
 }
