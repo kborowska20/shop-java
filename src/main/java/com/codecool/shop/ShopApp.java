@@ -41,7 +41,7 @@ class ShopApp {
 
         get("/supplier/:sID", productController::renderProducts, new ThymeleafTemplateEngine());
 
-//        get("/categories", categoryController::renderAllCategories, new ThymeleafTemplateEngine());
+        get("/categories", categoryController::renderAllCategories, new ThymeleafTemplateEngine());
 
         get("/suppliers", supplierController::renderAllSuppliers, new ThymeleafTemplateEngine());
 
