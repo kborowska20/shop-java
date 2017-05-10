@@ -4,6 +4,7 @@ import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
+import com.sun.corba.se.impl.io.TypeMismatchException;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -18,8 +19,27 @@ public class ProductDaoSQLite implements ProductDao {
     @Override
     public void add(Product product) {
         try {
-            dbConn.insert(product);
-        } catch (SQLException e) {
+            Connection conn = dbConn.connect();
+            Statement dbStatement = conn.createStatement();
+
+            String query = "INSERT OR REPLACE INTO ";
+            if (product != null) {
+                query += "product (id, name, defaultPrice, currencyString, description, categoryID, supplierID)"
+                        + " VALUES ((SELECT id FROM product WHERE id=" +
+                        product.getId() + "), '" +
+                        product.getName() + "', " +
+                        product.getDefaultPrice() + ", 'PLN', '" +
+                        product.getDescription() + "', " +
+                        product.getProductCategory().getId() + ", " +
+                        product.getSupplier().getId() + ");";
+            } else {
+                throw new TypeMismatchException("Unsupported type of the object provided!");
+            }
+
+            dbStatement.execute(query);
+            dbStatement.close();
+            dbConn.closeConnection(conn);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

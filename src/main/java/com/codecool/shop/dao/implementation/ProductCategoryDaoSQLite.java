@@ -2,6 +2,7 @@ package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.model.ProductCategory;
+import com.sun.corba.se.impl.io.TypeMismatchException;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -16,8 +17,25 @@ public class ProductCategoryDaoSQLite implements ProductCategoryDao {
     @Override
     public void add(ProductCategory category) {
         try {
-            dbConn.insert(category);
-        } catch (SQLException e) {
+            Connection conn = dbConn.connect();
+            Statement dbStatement = conn.createStatement();
+
+            String query = "INSERT OR REPLACE INTO ";
+            if (category != null) {
+                query += "productCategory (id, name, department, description) " +
+                        "VALUES ((SELECT id FROM product WHERE id=" +
+                        category.getId() + "), '" +
+                        category.getName() + "', '" +
+                        category.getDepartment() + "', '" +
+                        category.getDescription() + "');";
+            } else {
+                throw new TypeMismatchException("Unsupported type of the object provided!");
+            }
+
+            dbStatement.execute(query);
+            dbStatement.close();
+            dbConn.closeConnection(conn);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

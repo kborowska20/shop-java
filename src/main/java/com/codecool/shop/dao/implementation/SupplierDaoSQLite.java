@@ -2,6 +2,7 @@ package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.model.Supplier;
+import com.sun.corba.se.impl.io.TypeMismatchException;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -13,15 +14,29 @@ import java.util.List;
 public class SupplierDaoSQLite implements SupplierDao {
     private static DbConnector<Supplier> dbConn = new DbConnector<>();
 
-
     @Override
     public void add(Supplier supplier) {
         try {
-            dbConn.insert(supplier);
-        } catch (SQLException e) {
+            Connection conn = dbConn.connect();
+            Statement dbStatement = conn.createStatement();
+
+            String query = "INSERT OR REPLACE INTO ";
+            if (supplier != null) {
+                query += "supplier (id, name, description) " +
+                        "VALUES ((SELECT id FROM product WHERE id=" +
+                        supplier.getId() + "), '" +
+                        supplier.getName() + "', '" +
+                        supplier.getDescription() + "');";
+            } else {
+                throw new TypeMismatchException("Unsupported type of the object provided!");
+            }
+
+            dbStatement.execute(query);
+            dbStatement.close();
+            dbConn.closeConnection(conn);
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
