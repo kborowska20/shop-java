@@ -8,6 +8,7 @@ public class BaseModel{
     protected int id;
     protected String name;
     protected String description;
+    protected String link;
 
     public BaseModel(String name) {
         this.name = name;
@@ -23,6 +24,15 @@ public class BaseModel{
         this.name = name;
         this.description = description;
     }
+
+    public BaseModel(Integer id, String name, String description, String link) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.link= link;
+    }
+
+
 
     public int getId() {
         return id;
@@ -47,6 +57,10 @@ public class BaseModel{
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getLink(){return link;}
+
+    public void setLink(String link){this.link = link;}
 
     @Override
     public String toString() {

@@ -64,6 +64,7 @@ public class ProductDaoSQLite implements ProductDao {
                         resultSet.getString("description"),
                         categoryDao.find(resultSet.getInt("categoryID")),
                         supplierDao.find(resultSet.getInt("supplierID")));
+                        resultSet.getString("link");
             }
 
             resultSet.close();
