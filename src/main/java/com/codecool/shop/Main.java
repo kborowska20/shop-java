@@ -8,11 +8,12 @@ public class Main {
 
     public static void main(String args[]) {
 
+        DbInitializer dbInit = new DbInitializer();
         for (String arg : args) {
             if (arg.equals("--init-db")) {
-                DbInitializer.initDb();
+                dbInit.initDb();
             } else if (arg.equals("--migrate-db")) {
-                DbInitializer.migrateDb();
+                dbInit.migrateDb();
             }
         }
 
