@@ -28,11 +28,11 @@ public class ProductCategoryDaoSQLite implements ProductCategoryDao {
                         category.getName() + "', '" +
                         category.getDepartment() + "', '" +
                         category.getDescription() + "');";
+                dbStatement.execute(query);
             } else {
                 throw new TypeMismatchException("Unsupported type of the object provided!");
             }
 
-            dbStatement.execute(query);
             dbStatement.close();
             dbConn.closeConnection(conn);
         } catch (Exception e) {

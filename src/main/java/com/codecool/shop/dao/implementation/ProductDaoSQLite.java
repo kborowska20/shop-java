@@ -32,11 +32,11 @@ public class ProductDaoSQLite implements ProductDao {
                         product.getDescription() + "', " +
                         product.getProductCategory().getId() + ", " +
                         product.getSupplier().getId() + ");";
+                dbStatement.execute(query);
             } else {
                 throw new TypeMismatchException("Unsupported type of the object provided!");
             }
 
-            dbStatement.execute(query);
             dbStatement.close();
             dbConn.closeConnection(conn);
         } catch (Exception e) {

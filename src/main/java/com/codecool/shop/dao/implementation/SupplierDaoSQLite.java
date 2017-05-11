@@ -27,11 +27,11 @@ public class SupplierDaoSQLite implements SupplierDao {
                         supplier.getId() + "), '" +
                         supplier.getName() + "', '" +
                         supplier.getDescription() + "');";
+                dbStatement.execute(query);
             } else {
                 throw new TypeMismatchException("Unsupported type of the object provided!");
             }
 
-            dbStatement.execute(query);
             dbStatement.close();
             dbConn.closeConnection(conn);
         } catch (Exception e) {
