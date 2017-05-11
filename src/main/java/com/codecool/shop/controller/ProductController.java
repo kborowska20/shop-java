@@ -20,6 +20,7 @@ public class ProductController extends BaseController {
     public ModelAndView renderProducts(Request req, Response res) {
         Map<String, Object> params = new HashMap<>();
         params.put("supplierList", getSupplierDao().getAll());
+        params.put("categoryList", getCategoryDao().getAll());
 
         if (req.params().containsKey(":cid")) {
             Integer categoryID = Integer.parseInt(req.params(":cid"));
