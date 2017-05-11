@@ -1,36 +1,37 @@
 package com.codecool.shop.controller;
 
-import com.codecool.shop.dao.implementation.ProductCategoryDaoSQLite;
-import com.codecool.shop.dao.implementation.SupplierDaoSQLite;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.view.ProductCategoryView;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProductCategoryController {
-    private static SupplierDaoSQLite supplierDao = new SupplierDaoSQLite();
-    private static ProductCategoryDaoSQLite categoryDao = new ProductCategoryDaoSQLite();
+public class ProductCategoryController extends BaseController {
+
+    public ProductCategoryController(Connection conn) {
+        super(conn);
+    }
 
     public ModelAndView renderAllCategories(Request req, Response res) {
         Map<String, Object> params = new HashMap<>();
-        params.put("supplierList", supplierDao.getAll());
-        params.put("categoryList", categoryDao.getAll());
+        params.put("supplierList", getSupplierDao().getAll());
+        params.put("categoryList", getCategoryDao().getAll());
         return new ModelAndView(params, "category/index");
     }
 
-    public static void showCategoryBy(Integer id) {
-        ProductCategoryView.printCategory(categoryDao.find(id));
+    public void showCategoryBy(Integer id) {
+        ProductCategoryView.printCategory(getCategoryDao().find(id));
     }
 
-    public static void addCategory(String newCategoryName, String newCategoryDepartment, String newCategoryDescription) {
-        categoryDao.add(new ProductCategory(newCategoryName, newCategoryDepartment, newCategoryDescription));
+    public void addCategory(String newCategoryName, String newCategoryDepartment, String newCategoryDescription) {
+        getCategoryDao().add(new ProductCategory(newCategoryName, newCategoryDepartment, newCategoryDescription));
     }
 
-    public static void removeCategory(Integer id) {
-        categoryDao.remove(id);
+    public void removeCategory(Integer id) {
+        getCategoryDao().remove(id);
     }
 }

@@ -2,21 +2,31 @@
 package com.codecool.shop;
 
 import com.codecool.shop.controller.*;
+import com.codecool.shop.dao.implementation.DbConnector;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 
 import static spark.Spark.*;
 
 
 class ShopApp {
 
+    private ShopApp shopApp;
+    private Connection conn;
+
     ShopApp() {
         port(8888);
         staticFileLocation("/public");
 
-        ProductCategoryController categoryController = new ProductCategoryController();
-        SupplierController supplierController = new SupplierController();
-        ShoppingCartController cartController = new ShoppingCartController();
-        ProductController productController = new ProductController();
+        conn = new DbConnector().getConnection();
+        this.shopApp = this;
+
+        ProductCategoryController categoryController = new ProductCategoryController(conn);
+        SupplierController supplierController = new SupplierController(conn);
+        ProductController productController = new ProductController(conn);
+        ShoppingCartController cartController = new ShoppingCartController(conn, productController);
 
         ThymeleafTemplateEngine thymeleafEngine = new ThymeleafTemplateEngine();
 
@@ -39,5 +49,13 @@ class ShopApp {
         get("/basket", cartController::renderCartItems, thymeleafEngine);
 
         get("/", productController::renderProducts, thymeleafEngine);
+    }
+
+    ShopApp getShopApp() {
+        return this.shopApp;
+    }
+
+    void closeConnection() throws SQLException {
+        this.conn.close();
     }
 }
