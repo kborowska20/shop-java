@@ -1,16 +1,17 @@
 package com.codecool.shop.dao.implementation;
 
-import com.codecool.shop.model.Product;
-import com.codecool.shop.model.ProductCategory;
-import com.codecool.shop.model.Supplier;
+import java.sql.Connection;
+import java.sql.DriverManager;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+public class DbConnector {
 
-class DbConnector<T> {
+    private Connection connection;
 
-    Connection connect() {
+    public DbConnector() {
+        this.connection = connect();
+    }
+
+    private Connection connect() {
         Connection conn = null;
         try {
             Class.forName("org.sqlite.JDBC");
@@ -21,90 +22,7 @@ class DbConnector<T> {
         return conn;
     }
 
-    void closeConnection(Connection conn) throws SQLException {
-        conn.close();
-    }
-
-    void delete(T t) throws SQLException {
-        Integer itemId = null;
-        String itemClassName = null;
-        try {
-            Connection conn = this.connect();
-            Statement dbStatement = conn.createStatement();
-
-            if (t instanceof Product) {
-                itemId = ((Product) t).getId();
-                itemClassName = "product";
-            } else if (t instanceof ProductCategory) {
-                itemId = ((ProductCategory) t).getId();
-                itemClassName = "productCategory";
-            } else if (t instanceof Supplier) {
-                itemId = ((Supplier) t).getId();
-                itemClassName = "supplier";
-            }
-
-            String query = "DELETE FROM " + itemClassName + " WHERE id=" + itemId;
-
-            dbStatement.execute(query);
-            dbStatement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new SQLException("Couldn't delete from database!");
-        }
-    }
-
-    List<Product> getAllProducts() {
-        List<Product> productList = new ArrayList<>();
-        try {
-            productList = filterProductsBy(null);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return productList;
-    }
-
-    List<Product> filterProductsBy(T t) throws SQLException {
-        List<Product> productList = new ArrayList<>();
-        ProductCategoryDaoSQLite categoryDao = new ProductCategoryDaoSQLite();
-        SupplierDaoSQLite supplierDao = new SupplierDaoSQLite();
-
-        try {
-            Connection conn = this.connect();
-            Statement dbStatement = conn.createStatement();
-
-            String query = "SELECT * FROM PRODUCT ";
-
-            if (t instanceof ProductCategory) {
-                query += "WHERE product.categoryID=" + ((ProductCategory) t).getId();
-            } else if (t instanceof Supplier) {
-                query += " WHERE product.supplierID=" + ((Supplier) t).getId();
-            }
-
-            ResultSet resultSet = dbStatement.executeQuery(query);
-
-            while (resultSet.next()) {
-                productList.add(new Product(resultSet.getInt("id"),
-                        resultSet.getString("name"),
-                        resultSet.getFloat("defaultPrice"),
-                        resultSet.getString("currencyString"),
-                        resultSet.getString("description"),
-                        (t instanceof ProductCategory) ? ((ProductCategory) t) : categoryDao.find(resultSet.getInt(6)),
-                        (t instanceof Supplier) ? ((Supplier) t) : supplierDao.find(resultSet.getInt(7)),
-                        resultSet.getString("link")
-
-                        )
-
-                );
-            }
-
-            resultSet.close();
-            dbStatement.close();
-            closeConnection(conn);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new SQLException("Couldn't fetch from database!");
-
-        }
-        return productList;
+    public Connection getConnection() {
+        return connection;
     }
 }

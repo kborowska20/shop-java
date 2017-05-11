@@ -12,12 +12,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SupplierDaoSQLite implements SupplierDao {
-    private static DbConnector<Supplier> dbConn = new DbConnector<>();
+
+    private Connection conn;
+
+    public SupplierDaoSQLite(Connection conn) {
+        this.conn = conn;
+    }
 
     @Override
     public void add(Supplier supplier) {
         try {
-            Connection conn = dbConn.connect();
             Statement dbStatement = conn.createStatement();
 
             String query = "INSERT OR REPLACE INTO ";
@@ -33,7 +37,6 @@ public class SupplierDaoSQLite implements SupplierDao {
             }
 
             dbStatement.close();
-            dbConn.closeConnection(conn);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -43,7 +46,6 @@ public class SupplierDaoSQLite implements SupplierDao {
     public Supplier find(int id) {
         Supplier foundSupplier = null;
         try {
-            Connection conn = dbConn.connect();
             Statement dbStatement = conn.createStatement();
 
             ResultSet resultSet = dbStatement.executeQuery("SELECT * FROM supplier WHERE id=" + id);
@@ -57,7 +59,6 @@ public class SupplierDaoSQLite implements SupplierDao {
             }
 
             dbStatement.close();
-            dbConn.closeConnection(conn);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -67,13 +68,12 @@ public class SupplierDaoSQLite implements SupplierDao {
     @Override
     public void remove(int id) {
         try {
-            Connection conn = dbConn.connect();
             Statement dbStatement = conn.createStatement();
 
-            dbStatement.execute("DELETE FROM supplier WHERE id=" + id);
+            String query = "DELETE FROM supplier WHERE id=" + id;
 
+            dbStatement.execute(query);
             dbStatement.close();
-            dbConn.closeConnection(conn);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -84,7 +84,6 @@ public class SupplierDaoSQLite implements SupplierDao {
         List<Supplier> supplierList = new ArrayList<>();
 
         try {
-            Connection conn = dbConn.connect();
             Statement dbStatement = conn.createStatement();
             ResultSet resultSet = dbStatement.executeQuery("SELECT * FROM supplier;");
 
@@ -95,7 +94,6 @@ public class SupplierDaoSQLite implements SupplierDao {
             }
 
             dbStatement.close();
-            dbConn.closeConnection(conn);
         } catch (SQLException e) {
             e.printStackTrace();
         }

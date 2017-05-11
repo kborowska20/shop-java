@@ -12,15 +12,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductCategoryDaoSQLite implements ProductCategoryDao {
-    private static DbConnector<ProductCategory> dbConn = new DbConnector<>();
+
+    private Connection conn;
+
+    public ProductCategoryDaoSQLite(Connection conn) {
+        this.conn = conn;
+    }
 
     @Override
     public void add(ProductCategory category) {
         try {
-            Connection conn = dbConn.connect();
             Statement dbStatement = conn.createStatement();
-
             String query = "INSERT OR REPLACE INTO ";
+
             if (category != null) {
                 query += "productCategory (id, name, department, description) " +
                         "VALUES ((SELECT id FROM product WHERE id=" +
@@ -34,7 +38,6 @@ public class ProductCategoryDaoSQLite implements ProductCategoryDao {
             }
 
             dbStatement.close();
-            dbConn.closeConnection(conn);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -44,7 +47,6 @@ public class ProductCategoryDaoSQLite implements ProductCategoryDao {
     public ProductCategory find(int id) {
         ProductCategory foundCategory = null;
         try {
-            Connection conn = dbConn.connect();
             Statement dbStatement = conn.createStatement();
 
             ResultSet resultSet = dbStatement.executeQuery("SELECT * FROM productCategory WHERE id=" + id);
@@ -60,7 +62,6 @@ public class ProductCategoryDaoSQLite implements ProductCategoryDao {
 
             resultSet.close();
             dbStatement.close();
-            dbConn.closeConnection(conn);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -70,7 +71,12 @@ public class ProductCategoryDaoSQLite implements ProductCategoryDao {
     @Override
     public void remove(int id) {
         try {
-            dbConn.delete(find(id));
+            Statement dbStatement = conn.createStatement();
+
+            String query = "DELETE FROM productCategory WHERE id=" + id;
+
+            dbStatement.execute(query);
+            dbStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -81,7 +87,6 @@ public class ProductCategoryDaoSQLite implements ProductCategoryDao {
         List<ProductCategory> categoryList = new ArrayList<>();
 
         try {
-            Connection conn = dbConn.connect();
             Statement dbStatement = conn.createStatement();
             ResultSet resultSet = dbStatement.executeQuery("SELECT * FROM productCategory;");
 
@@ -94,7 +99,6 @@ public class ProductCategoryDaoSQLite implements ProductCategoryDao {
 
             resultSet.close();
             dbStatement.close();
-            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

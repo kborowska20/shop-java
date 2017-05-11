@@ -1,6 +1,8 @@
 package com.codecool.shop.dao.implementation;
 
+import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
+import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
@@ -14,13 +16,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDaoSQLite implements ProductDao {
-    private static DbConnector<Product> dbConn = new DbConnector<>();
+    private Connection conn;
+
+    private ProductCategoryDao categoryDao;
+    private SupplierDao supplierDao;
+
+
+    public ProductDaoSQLite(Connection conn) {
+        this.conn = conn;
+        categoryDao = new ProductCategoryDaoSQLite(conn);
+        supplierDao = new SupplierDaoSQLite(conn);
+    }
 
     @Override
     public void add(Product product) {
         try {
-            Connection conn = dbConn.connect();
-            Statement dbStatement = conn.createStatement();
+            Statement dbStatement = this.conn.createStatement();
 
             String query = "INSERT OR REPLACE INTO ";
             if (product != null) {
@@ -38,7 +49,6 @@ public class ProductDaoSQLite implements ProductDao {
             }
 
             dbStatement.close();
-            dbConn.closeConnection(conn);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -48,14 +58,11 @@ public class ProductDaoSQLite implements ProductDao {
     public Product find(int id) {
         Product foundProduct = null;
         try {
-            Connection conn = dbConn.connect();
-            Statement dbStatement = conn.createStatement();
+            Statement dbStatement = this.conn.createStatement();
 
             ResultSet resultSet = dbStatement.executeQuery("SELECT * FROM product WHERE id=" + id);
 
             if (resultSet.next()) {
-                ProductCategoryDaoSQLite categoryDao = new ProductCategoryDaoSQLite();
-                SupplierDaoSQLite supplierDao = new SupplierDaoSQLite();
 
                 foundProduct = new Product(resultSet.getInt("id"),
                         resultSet.getString("name"),
@@ -64,12 +71,11 @@ public class ProductDaoSQLite implements ProductDao {
                         resultSet.getString("description"),
                         categoryDao.find(resultSet.getInt("categoryID")),
                         supplierDao.find(resultSet.getInt("supplierID")));
-                        resultSet.getString("link");
+                resultSet.getString("link");
             }
 
             resultSet.close();
             dbStatement.close();
-            dbConn.closeConnection(conn);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -79,29 +85,22 @@ public class ProductDaoSQLite implements ProductDao {
     @Override
     public void remove(int id) {
         try {
-            dbConn.delete(find(id));
+            Statement dbStatement = conn.createStatement();
+
+            String query = "DELETE FROM product WHERE id=" + id;
+
+            dbStatement.execute(query);
+            dbStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public List<Product> getAll() {
-        List<Product> productList = null;
-        try {
-            productList = dbConn.getAllProducts();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return productList;
-    }
-
-    @Override
     public List<Product> getBy(Supplier supplier) {
         List<Product> productList = new ArrayList<>();
         try {
-            DbConnector<Supplier> dbConn = new DbConnector<>();
-            productList = dbConn.filterProductsBy(supplier);
+            productList = filterProductsBy(supplier);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -113,11 +112,65 @@ public class ProductDaoSQLite implements ProductDao {
     public List<Product> getBy(ProductCategory category) {
         List<Product> productList = new ArrayList<>();
         try {
-            DbConnector<ProductCategory> dbConn = new DbConnector<>();
-            productList = dbConn.filterProductsBy(category);
+            productList = filterProductsBy(category);
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        return productList;
+    }
+
+    @Override
+    public List<Product> getAll() {
+        return filterProductsBy();
+    }
+
+    private List<Product> filterProductsBy() {
+        try {
+            return filterProductsBy(null);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private List<Product> filterProductsBy(Object object) throws SQLException {
+        List<Product> productList = new ArrayList<>();
+
+        try {
+            Statement dbStatement = conn.createStatement();
+
+            String query = "SELECT * FROM PRODUCT ";
+
+            if (object instanceof ProductCategory) {
+                query += "WHERE product.categoryID=" + ((ProductCategory) object).getId();
+            } else if (object instanceof Supplier) {
+                query += " WHERE product.supplierID=" + ((Supplier) object).getId();
+            }
+
+            ResultSet resultSet = dbStatement.executeQuery(query);
+
+            while (resultSet.next()) {
+                productList.add(new Product(resultSet.getInt("id"),
+                                resultSet.getString("name"),
+                                resultSet.getFloat("defaultPrice"),
+                                resultSet.getString("currencyString"),
+                                resultSet.getString("description"),
+                                (object instanceof ProductCategory) ? ((ProductCategory) object) : categoryDao.find(resultSet.getInt(6)),
+                                (object instanceof Supplier) ? ((Supplier) object) : supplierDao.find(resultSet.getInt(7)),
+                                resultSet.getString("link")
+
+                        )
+
+                );
+            }
+
+            resultSet.close();
+            dbStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Couldn't fetch from database!");
+
         }
         return productList;
     }
