@@ -17,7 +17,7 @@ public class DbInitializer {
         this.conn = new DbConnector().getConnection();
     }
 
-    public void initDb() {
+    public void initDb() throws InterruptedException {
         System.out.println("Initializing database. \n Filename: Products.db");
         try {
             List<String> lines = Files.readAllLines(Paths.get("src/main/resources/db/init.sql"),
@@ -32,11 +32,12 @@ public class DbInitializer {
             dbStatement.close();
         } catch (IOException | SQLException e) {
             System.out.println("Couldn't read statement from init.sql file!");
-
+            e.printStackTrace();
+            throw new InterruptedException();
         }
     }
 
-    public void migrateDb() {
+    public void migrateDb() throws InterruptedException {
         System.out.println("Migrating to database. \n Filename: Products.db");
         try {
             List<String> lines = Files.readAllLines(Paths.get("src/main/resources/db/migrate.sql"),
@@ -46,12 +47,14 @@ public class DbInitializer {
 
             Statement dbStatement = conn.createStatement();
             for (String statement : initStatements) {
-                dbStatement.execute(statement);
+                dbStatement.executeUpdate(statement);
             }
 
             dbStatement.close();
         } catch (IOException | SQLException e) {
-            System.out.println("Couldn't read statement from migrate.sql file!");
+            System.out.println("Couldn't read statement from migrate.sql file! \n Closing...");
+            e.printStackTrace();
+            throw new InterruptedException();
 
         }
     }
