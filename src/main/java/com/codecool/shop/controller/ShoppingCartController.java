@@ -1,9 +1,5 @@
 package com.codecool.shop.controller;
 
-import com.codecool.shop.dao.ProductDao;
-import com.codecool.shop.dao.SupplierDao;
-import com.codecool.shop.dao.implementation.ProductDaoSQLite;
-import com.codecool.shop.dao.implementation.SupplierDaoSQLite;
 import com.codecool.shop.model.CartItem;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ShoppingCart;
@@ -11,20 +7,24 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ShoppingCartController {
-    private ProductController productController = new ProductController();
-    private ProductDao productDao = new ProductDaoSQLite();
-    private ShoppingCart shoppingCart = new ShoppingCart();
-    private SupplierDao supplierDao = new SupplierDaoSQLite();
+public class ShoppingCartController extends BaseController {
+    private ShoppingCart shoppingCart;
+    private ProductController productController;
 
+    public ShoppingCartController(Connection conn, ProductController productController) {
+        super(conn);
+        this.shoppingCart = new ShoppingCart();
+        this.productController = productController;
+    }
 
     public ModelAndView renderCartItems(Request req, Response res) {
         Map<String, Object> params = new HashMap<>();
         params.put("cartItemList", shoppingCart.getItemList());
-        params.put("supplierList", supplierDao.getAll());
+        params.put("supplierList", getSupplierDao().getAll());
 
         return new ModelAndView(params, "basket/index");
     }
@@ -33,7 +33,7 @@ public class ShoppingCartController {
         Integer productID = Integer.parseInt(req.params().get(":pid"));
 
         if (!(productID == null) || !productID.equals(0)) {
-            Product addedProduct = productDao.find(productID);
+            Product addedProduct = getProductDao().find(productID);
             shoppingCart.addProduct(new CartItem(addedProduct, 1));
 
             res.status(201);
