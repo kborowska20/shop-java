@@ -1,7 +1,6 @@
 package com.codecool.shop.controller;
 
 import com.codecool.shop.model.ProductCategory;
-import com.codecool.shop.view.ProductCategoryView;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -21,10 +20,6 @@ public class ProductCategoryController extends BaseController {
         params.put("supplierList", getSupplierDao().getAll());
         params.put("categoryList", getCategoryDao().getAll());
         return new ModelAndView(params, "category/index");
-    }
-
-    public void showCategoryBy(Integer id) {
-        ProductCategoryView.printCategory(getCategoryDao().find(id));
     }
 
     public void addCategory(String newCategoryName, String newCategoryDepartment, String newCategoryDescription) {
