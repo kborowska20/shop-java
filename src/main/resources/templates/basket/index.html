@@ -37,7 +37,7 @@
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li>
+                <li class="active">
                     <a th:href="@{~/basket}">Your basket</a>
                 </li>
 
@@ -76,38 +76,37 @@
     <div class="well well-sm">
         <strong>Shopping Cart</strong>
     </div>
-    <div id="products" class="row list-group">
-        <div id="products" class="row list-group">
-            <table class="call-xs-4 col-lg-12">
-                <thead>
-                <tr>
-                    <th>Product Name</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Remove</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="item : ${cartItemList}">
-                    <td><p th:text="${item.getProduct().getName()}">Product Name</p></td>
-                    <td>
-                        <form th:action="@{'~/basket/' + ${item.getId()} + '/edit'}"  method="get">
 
-                            <div class="pull-left">
-                                <input type="number" max="1000" min="1" name="item-quantity" value="1"/>
-                            </div>
+    <div id="products" class="well well-sm row list-group">
+        <table class="call-xs-4 col-lg-12" id="basket-table">
+            <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Remove</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${cartItemList}">
+                <td><p th:text="${item.getProduct().getName()}">Product Name</p></td>
+                <td>
+                    <form th:action="@{'~/basket/' + ${item.getId()} + '/edit'}" method="get">
 
-                            <a class="btn btn-success" href="#" type="submit">Change</a>
-                        </form>
-                    </td>
-                    <td><p th:text="${item.getProduct().getPrice()}"></p></td>
-                    <td><a class="btn btn-danger" th:href="@{'~/basket/' + ${item.getId()} + '/remove'}">Remove</a></td>
-                </tr>
-                </tbody>
-            </table>
-            <a class="btn btn-success" th:href="@{~/basket/checkout}">Buy</a>
-            <!--/*@thymesVar id="cartItemList" type="List<CartItem>"*/-->
-        </div>
+                        <div class="pull-left">
+                            <input type="number" max="1000" min="1" name="item-quantity" value="1"/>
+                        </div>
+
+                        <a class="btn btn-success" href="#" type="submit">Change</a>
+                    </form>
+                </td>
+                <td><p th:text="${item.getProduct().getPrice()}"></p></td>
+                <td><a class="btn btn-danger" th:href="@{'~/basket/' + ${item.getId()} + '/remove'}">Remove</a></td>
+            </tr>
+            </tbody>
+        </table>
+        <a class="btn btn-success" th:href="@{~/basket/checkout}">Buy</a>
+        <!--/*@thymesVar id="cartItemList" type="List<CartItem>"*/-->
     </div>
 </div>
 
