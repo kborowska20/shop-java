@@ -70,3 +70,24 @@
 .modal-footer {
     font-weight: bold;
 }
+table {
+    width:100%;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: left;
+}
+table tbody tr:nth-child(even) {
+    background-color: #eee;
+}
+table tbody tr:nth-child(odd) {
+    background-color:#fff;
+}
+table thead th {
+    background-color: black;
+    color: white;
+}
