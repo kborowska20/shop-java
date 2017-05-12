@@ -42,6 +42,7 @@
                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Our suppliers<b
                         class="caret"></b></a>
                     <ul class="dropdown-menu">
+                        <!--/*@thymesVar id="supplierList" type="List<Supplier>"*/-->
                         <li th:each="supplier,iterStat : ${supplierList}"><a
                                 th:href="@{'~/supplier/' + ${supplier.getId()}}" th:text="${supplier.getName()}">SUPPLIER
                             1</a></li>
@@ -64,28 +65,28 @@
     </div>
 
     <div id="products" class="row list-group">
+        <table class="call-xs-4 col-lg-12">
+            <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Remove</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${cartItemList}">
+                <td><p th:text="${item.getProduct().getName()}">Product Name</p></td>
+                <td>Quantity
 
-        <!--/*@thymesVar id="cartItemList" type="List<CartItem>"*/-->
-        <div class="item col-xs-4 col-lg-4" th:each="item : ${cartItemList}">
-            <div class="thumbnail">
-                <div class="caption">
-                    <h4 class="group inner list-group-item-heading" th:text="${item.getProduct().getName()}">Name</h4>
-                    <p class="group inner list-group-item-text" th:text="${item.getProduct().getDescription()}">
-                        Description</p>
-                    <div class="row">
-                        <div class="col-xs-12 col-md-6">
-                            <p class="lead" th:text="${item.getProduct().getPrice()}">100 USD</p>
-                        </div>
-                        <div class="col-xs-12 col-md-6">
-                            <a class="btn btn-success" th:href="@{'~/basket/' + ${item.getId()} + '/add'}">
-                                Add to cart</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                </td>
+                <td><p class="lead" th:text="${item.getProduct().getPrice()}"></p></td>
+                <td><a class="btn btn-danger"  th:href="@{'~/basket/' + ${item.getId()} + '/remove'}">Remove</a></td>
+            </tr>
+            </tbody>
+        </table>
+        <a class="btn btn-success" href="#">Buy</a>
     </div>
-
 </div>
 
 <div th:replace="footer :: copy"></div>
