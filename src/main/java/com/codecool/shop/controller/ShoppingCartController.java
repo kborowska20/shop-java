@@ -53,8 +53,8 @@ public class ShoppingCartController {
         } else {
             res.status(400);
         }
-        res.redirect("/");
-        return productController.renderProducts(req, res);
+        res.redirect("/basket");
+        return renderCartItems(req, res);
     }
 
     private CartItem getItemBy(Integer id) {
@@ -80,7 +80,7 @@ public class ShoppingCartController {
             res.status(400);
         }
         res.redirect("/basket");
-        return productController.renderProducts(req, res);
+        return renderCartItems(req, res);
     }
 
 
@@ -88,7 +88,7 @@ public class ShoppingCartController {
         shoppingCart.getItemList().clear();
 
         res.redirect("/", 201);
-        return productController.renderProducts(req, res);
+        return renderCartItems(req, res);
 
     }
 }
