@@ -8,19 +8,36 @@
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             </button>
-            <a class="navbar-brand" href="#">CodecoolShoppe</a>
+            <a class="active navbar-brand" th:href="@{~/}">CodecoolShoppe</a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a th:href="@{~/}">Home</a></li>
-                <li><a th:href="@{~/basket}">Your basket</a></li>
-                <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Our suppliers<b class="caret"></b></a>
+                <li>
+                    <a th:href="@{~/basket}">Your basket</a>
+                </li>
+
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Our suppliers<b
+                        class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li class="divider"><a href="#">SUPPLIER 1</a></li>
-                        <li class="divider"><a href="#">SUPPLIER 2</a></li>
+                        <li th:each="supplier,iterStat : ${supplierList}">
+                            <a th:href="@{'~/supplier/' + ${supplier.getId()}}"
+                               th:text="${supplier.getName()}">SUPPLIER 1
+                            </a>
+                        </li>
                     </ul>
                 </li>
-                <li><a th:href="@{~/categories}">Product categories</a></li>
+
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Product Categories<b
+                        class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li th:each="category,iterStat : ${categoryList}">
+                            <a th:href="@{'~/category/' + ${category.getId()}}"
+                               th:text="${category.getName()}">CATEGORY 1
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
             </ul>
         </div><!--/.nav-collapse -->
     </div>

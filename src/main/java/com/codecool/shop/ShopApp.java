@@ -36,7 +36,7 @@ class ShopApp {
 
         get("/basket/:pid/edit", cartController::handleEditQuantityRequest, thymeleafEngine);
 
-        post("/basket/checkout", cartController::handleCheckoutRequest, thymeleafEngine);
+        get("/basket/checkout", cartController::handleCheckoutRequest, thymeleafEngine);
 
         get("/category/:cid", productController::renderProducts, thymeleafEngine);
 
@@ -49,6 +49,8 @@ class ShopApp {
         get("/basket", cartController::renderCartItems, thymeleafEngine);
 
         get("/", productController::renderProducts, thymeleafEngine);
+
+
     }
 
     ShopApp getShopApp() {

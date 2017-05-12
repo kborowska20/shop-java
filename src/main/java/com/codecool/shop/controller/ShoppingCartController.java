@@ -53,8 +53,8 @@ public class ShoppingCartController extends BaseController {
         } else {
             res.status(400);
         }
-        res.redirect("/");
-        return productController.renderProducts(req, res);
+        res.redirect("/basket");
+        return renderCartItems(req, res);
     }
 
     private CartItem getItemBy(Integer id) {
@@ -87,7 +87,7 @@ public class ShoppingCartController extends BaseController {
     public ModelAndView handleCheckoutRequest(Request req, Response res) {
         shoppingCart.getItemList().clear();
 
-        res.redirect("/", 201);
+        res.redirect("/basket");
         return productController.renderProducts(req, res);
 
     }
