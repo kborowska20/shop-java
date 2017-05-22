@@ -20,44 +20,37 @@ class ProductTest {
 
     @Test
     void testGetDefaultPrice() {
-        Supplier supplier = new Supplier("TestSupplier", "Testscription");
-        ProductCategory productCategory = new ProductCategory("TestCategory");
-        Product product = new Product("TestProduct", 0, "PLN",
-                "TestDescription", productCategory, supplier);
+        Product product = new Product(null, 0, "PLN",
+                null, null, null);
         product.setDefaultPrice(1.5f);
         assertEquals(1.5f, product.getDefaultPrice());
     }
 
     @Test
     void testGetDefaultCurrency() {
-        Supplier supplier = new Supplier("TestSupplier", "Testscription");
-        ProductCategory productCategory = new ProductCategory("TestCategory");
-        Product product = new Product("TestProduct", 1.5f, "PLN",
-                "TestDescription", productCategory, supplier);
+        Product product = new Product(null, 0, "PLN",
+                null, null, null);
         assertEquals("PLN", product.getDefaultCurrency().toString());
 
     }
 
     @Test
     void testGetPrice() {
-        Supplier supplier = new Supplier("TestSupplier", "Testscription");
-        ProductCategory productCategory = new ProductCategory("TestCategory");
-        Product product = new Product("TestProduct", 1.5f, "PLN",
-                "TestDescription", productCategory, supplier);
+        Product product = new Product(null, 0, "PLN",
+                null, null, null);
+        product.setDefaultPrice(1.5f);
         assertEquals("1.5 PLN", product.getPrice());
 
     }
 
     @Test
     void testGetProductCategory() {
-        Supplier supplier = new Supplier("TestSupplier", "Testscription");
         ProductCategory productCategory = new ProductCategory("TestCategory");
-        Product product = new Product("TestProduct", 1.5f, "PLN",
-                "TestDescription", null, supplier);
+        Product product = new Product(null, 0, "PLN",
+                null, null, null);
         product.setProductCategory(productCategory);
         assertEquals(productCategory, product.getProductCategory());
     }
 
-
-
+    
 }
