@@ -52,5 +52,12 @@ class ProductTest {
         assertEquals(productCategory, product.getProductCategory());
     }
 
-    
+    @Test
+    void testGetSupplier() {
+        Supplier supplier = new Supplier("TestSupplier", "Testscription");
+        Product product = new Product(null, 0, "PLN",
+                null, null, null);
+        product.setSupplier(supplier);
+        assertEquals(supplier, product.getSupplier());
+    }
 }
