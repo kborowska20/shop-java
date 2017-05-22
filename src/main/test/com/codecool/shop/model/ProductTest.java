@@ -27,6 +27,14 @@ class ProductTest {
     }
 
     @Test
+    void testGetName() {
+        Product product = new Product(null, 0, "PLN",
+                null, null, null);
+        product.setName("Test");
+        assertEquals("Test", product.getName());
+    }
+
+    @Test
     void testGetDefaultCurrency() {
         Product product = new Product(null, 0, "PLN",
                 null, null, null);
