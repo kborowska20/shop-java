@@ -38,6 +38,18 @@ class ProductTest {
 
     }
 
+    @Test
+    void testGetPrice() {
+        Supplier supplier = new Supplier("TestSupplier", "Testscription");
+        ProductCategory productCategory = new ProductCategory("TestCategory");
+        Product product = new Product("TestProduct", 1.5f, "PLN",
+                "TestDescription", productCategory, supplier);
+        assertEquals("1.5 PLN", product.getPrice());
+
+    }
+
+   
+
 
 
 }
