@@ -35,6 +35,22 @@ class ProductTest {
     }
 
     @Test
+    void testGetLink() {
+        Product product = new Product(null, 0, "PLN",
+                null, null, null);
+        product.setLink("www.test.com");
+        assertEquals("www.test.com", product.getLink());
+    }
+
+    @Test
+    void testGetDescription() {
+        Product product = new Product(null, 0, "PLN",
+                null, null, null);
+        product.setDescription("Testcription");
+        assertEquals("Testcription", product.getDescription());
+    }
+
+    @Test
     void testGetDefaultCurrency() {
         Product product = new Product(null, 0, "PLN",
                 null, null, null);
