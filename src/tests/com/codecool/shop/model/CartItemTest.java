@@ -27,5 +27,15 @@ class CartItemTest {
         Product productCartItem = cartItem.getProduct();
         assertEquals(product,productCartItem);
     }
+    @Test
+    public void TestGetId(){
+        DbConnector dbConnector = new DbConnector();
+        ProductDaoSQLite productDaoSQLite = new ProductDaoSQLite(dbConnector.getConnection());
+        Product product = productDaoSQLite.find(2);
+        CartItem cartItem = new CartItem(product,2);
+        Integer cartItemId = cartItem.getId();
+        Integer realId = 2;
+        assertEquals(realId,cartItemId);
+    }
 
 }
