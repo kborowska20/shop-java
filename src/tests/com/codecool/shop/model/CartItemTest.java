@@ -47,5 +47,16 @@ class CartItemTest {
         Integer quantity = 2;
         assertEquals(quantity,cartIteamQuantity);
     }
+    @Test
+    public void TestIsAddToProductQuantityIsCounting(){
+        DbConnector dbConnector = new DbConnector();
+        ProductDaoSQLite productDaoSQLite = new ProductDaoSQLite(dbConnector.getConnection());
+        Product product = productDaoSQLite.find(2);
+        CartItem cartItem = new CartItem(product,2);
+        cartItem.addToProductQuantity(5);
+        Integer cartIteamQuantity = cartItem.getProductQuantity();
+        Integer quantity = 7;
+        assertEquals(quantity,cartIteamQuantity);
+    }
 
 }
