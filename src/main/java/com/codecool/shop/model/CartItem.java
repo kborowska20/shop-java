@@ -52,8 +52,5 @@ public class CartItem {
     Float getTotalPrice() {
         return this.product.getDefaultPrice() * this.productQuantity;
     }
-
-    private Integer getCheckoutPrice() {
-        return null;
-    }
+    
 }
