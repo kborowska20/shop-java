@@ -2,6 +2,8 @@ package com.codecool.shop.model;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Currency;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -26,6 +28,7 @@ class ProductTest {
         assertEquals(1.5f, product.getDefaultPrice());
     }
 
+    
     @Test
     void testGetName() {
         Product product = new Product(null, 0, "PLN",
@@ -36,7 +39,7 @@ class ProductTest {
 
     @Test
     void testGetLink() {
-        Product product = new Product(null, 0, "PLN",
+        Product product = new Product(0, null, 0, "PLN",
                 null, null, null);
         product.setLink("www.test.com");
         assertEquals("www.test.com", product.getLink());
@@ -52,9 +55,11 @@ class ProductTest {
 
     @Test
     void testGetDefaultCurrency() {
-        Product product = new Product(null, 0, "PLN",
-                null, null, null);
-        assertEquals("PLN", product.getDefaultCurrency().toString());
+        Currency currency = Currency.getInstance("EUR");
+        Product product = new Product(0, null, 0, "PLN",
+                null, null, null, null);
+        product.setDefaultCurrency(currency);
+        assertEquals("EUR", product.getDefaultCurrency().toString());
 
     }
 
