@@ -28,6 +28,13 @@ class ProductTest {
         assertEquals(1.5f, product.getDefaultPrice());
     }
 
+    @Test
+    void testGetID() {
+        Product product = new Product(null, 0, "PLN",
+                null, null, null);
+        product.setId(0);
+        assertEquals(0, product.getId());
+    }
     
     @Test
     void testGetName() {
