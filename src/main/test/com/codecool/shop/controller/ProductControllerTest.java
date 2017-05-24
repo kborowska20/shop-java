@@ -7,9 +7,11 @@ import spark.Response;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by morthan on 23.05.17.
@@ -49,6 +51,17 @@ class ProductControllerTest {
 
     @Test
     void renderProductsBySupplier() throws SQLException {
+        Request req = mock(Request.class);
+        Response res = mock(Response.class);
+        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/main/test/resources/test.db");
+        ProductController productController = new ProductController(conn);
+        HashMap<String, String> hashMap = new HashMap<String, String>();
+        hashMap.put(":sid", "2");
+        when(req.params()).thenReturn(hashMap);
+        String testId = req.params().get(":sid");
+        Integer testInt = Integer.parseInt(req.params(":sid"));
+        assertEquals(""
+                , productController.renderProducts(req, res).getModel().toString());
     }
 
     @Test
