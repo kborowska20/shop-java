@@ -19,31 +19,31 @@ public class ProductController extends BaseController {
 
     public ModelAndView renderProducts(Request req, Response res) {
         Map<String, Object> params = new HashMap<>();
-        params.put("supplierList", getSupplierDao().getAll());
-        params.put("categoryList", getCategoryDao().getAll());
+        params.put("supplierList", this.getSupplierDao().getAll());
+        params.put("categoryList", this.getCategoryDao().getAll());
 
         if (req.params().containsKey(":cid")) {
-            Integer categoryID = Integer.parseInt(req.params(":cid"));
-            ProductCategory chosenCategory = getCategoryDao().find(categoryID);
+            Integer categoryID = Integer.parseInt(req.params().get(":cid"));
+            ProductCategory chosenCategory = this.getCategoryDao().find(categoryID);
 
-            params.put("productList", getProductDao().getBy(chosenCategory));
+            params.put("productList", this.getProductDao().getBy(chosenCategory));
         } else if (req.params().containsKey(":sid")) {
-            Integer supplierID = Integer.parseInt(req.params(":sid"));
-            Supplier supplier = getSupplierDao().find(supplierID);
+            Integer supplierID = Integer.parseInt(req.params().get(":sid"));
+            Supplier supplier = this.getSupplierDao().find(supplierID);
 
-            params.put("productList", getProductDao().getBy(supplier));
+            params.put("productList", this.getProductDao().getBy(supplier));
         } else {
-            params.put("productList", getProductDao().getAll());
+            params.put("productList", this.getProductDao().getAll());
         }
         return new ModelAndView(params, "product/index");
     }
 
     public void addProduct(Product product) {
-        getProductDao().add(product);
+        this.getProductDao().add(product);
     }
 
     public void removeProduct(Integer id) {
-        getProductDao().remove(id);
+        this.getProductDao().remove(id);
     }
 
 }
