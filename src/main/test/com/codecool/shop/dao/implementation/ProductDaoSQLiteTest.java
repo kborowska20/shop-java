@@ -1,6 +1,7 @@
 package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.model.ProductCategory;
+import com.codecool.shop.model.Supplier;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
@@ -36,5 +37,15 @@ class ProductDaoSQLiteTest {
 
     }
 
-
+    @Test
+    void testGetBySupplier() throws SQLException {
+        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/main/test/resources/test.db");
+        ProductDaoSQLite productDaoSQLite = new ProductDaoSQLite(conn);
+        Supplier supplier = new Supplier(1, "Test", "Test");
+        assertEquals("[id: 2, name: Milk, defaultPrice: 1,70, defaultCurrency: PLN, productCategory: Dairy," +
+                        " supplier: Test, id: 4, name: Butter, defaultPrice: 4,20, defaultCurrency: PLN," +
+                        " productCategory: Dairy, supplier: Test, id: 7, name: White cheese, defaultPrice: 1,80," +
+                        " defaultCurrency: PLN, productCategory: Dairy, supplier: Test]",
+                productDaoSQLite.getBy(supplier).toString());
+    }
 }
