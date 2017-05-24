@@ -48,4 +48,25 @@ class ProductDaoSQLiteTest {
                         " defaultCurrency: PLN, productCategory: Dairy, supplier: Test]",
                 productDaoSQLite.getBy(supplier).toString());
     }
+
+    @Test
+    void testGetAll() throws SQLException {
+        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/main/test/resources/test.db");
+        ProductDaoSQLite productDaoSQLite = new ProductDaoSQLite(conn);
+        assertEquals("[id: 1, name: Bread, defaultPrice: 2,20, defaultCurrency: PLN, productCategory: Pastries," +
+                        " supplier: Piekarnia Mojego Taty, id: 2, name: Milk, defaultPrice: 1,70, defaultCurrency: PLN," +
+                        " productCategory: Dairy, supplier: Mlekpol, id: 3, name: Bananas, defaultPrice: 3,10," +
+                        " defaultCurrency: PLN, productCategory: Fruit, supplier: Boongaboonga, id: 4, name: Butter," +
+                        " defaultPrice: 4,20, defaultCurrency: PLN, productCategory: Dairy, supplier: Mlekpol, id: 5," +
+                        " name: Peanut butter, defaultPrice: 9,50, defaultCurrency: PLN, productCategory: Processed," +
+                        " supplier: Felix, id: 6, name: Apples, defaultPrice: 1,40, defaultCurrency: PLN," +
+                        " productCategory: Fruit, supplier: PolSad, id: 7, name: White cheese, defaultPrice: 1,80," +
+                        " defaultCurrency: PLN, productCategory: Dairy, supplier: Mlekpol, id: 8, name: Eggs," +
+                        " defaultPrice: 5,40, defaultCurrency: PLN, productCategory: Dairy, supplier: Felix, id: 9," +
+                        " name: Tomatoes, defaultPrice: 3,70, defaultCurrency: PLN, productCategory: Fruit," +
+                        " supplier: PolSad, id: 10, name: Chicken, defaultPrice: 6,90, defaultCurrency: PLN," +
+                        " productCategory: None, supplier: None]",
+                productDaoSQLite.getAll().toString());
+    }
+
 }
