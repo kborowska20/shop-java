@@ -38,7 +38,7 @@ class ProductCategoryControllerTest {
         HelpTestClass helpTestClass = new HelpTestClass();
         helpTestClass.fillDB("productCategory");
         Connection conn = null;
-                conn = DriverManager.getConnection("jdbc:sqlite:src/main/test/resources/testDB.db");
+        conn = DriverManager.getConnection("jdbc:sqlite:src/tests/com/codecool/shop/resources/db/Products_test.db");
         ProductCategoryController productCategoryController = new ProductCategoryController(conn);
         Request request = mock(Request.class);
         ModelAndView modelAndView = productCategoryController.renderAllCategories(request, null);
@@ -55,7 +55,7 @@ class ProductCategoryControllerTest {
         Connection conn = null;
         try {
             Class.forName("org.sqlite.JDBC");
-            conn = DriverManager.getConnection("jdbc:sqlite:src/main/test/resources/testDB.db");
+            conn = DriverManager.getConnection("jdbc:sqlite:src/tests/com/codecool/shop/resources/db/Products_test.db");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -69,8 +69,8 @@ class ProductCategoryControllerTest {
     void testRemoveCategory() {
         Connection conn = null;
         try {
-            Class.forName("org.sqlite.JDBC");
-            conn = DriverManager.getConnection("jdbc:sqlite:src/main/test/resources/testDB.db");
+            Class.forName("org.sqlite.JDBC");///Users/KBorowska/Desktop/codecool-shops-b-k/src/tests/com/codecool/shop/resources/db/Products_test.db
+            conn = DriverManager.getConnection("jdbc:sqlite:src/tests/com/codecool/shop/resources/db/Products_test.db");
         } catch (Exception e) {
             e.printStackTrace();
         }

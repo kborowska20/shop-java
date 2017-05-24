@@ -9,7 +9,7 @@ public class HelpTestClass {
 
     public void clearAllDb(String tableName) throws SQLException{
         Connection conn = null;
-        conn = DriverManager.getConnection("jdbc:sqlite:src/main/test/resources/testDB.db");
+        conn = DriverManager.getConnection("jdbc:sqlite:src/tests/com/codecool/shop/resources/db/Products_test.db");
         Statement dbStatement = conn.createStatement();
         String query = "DELETE FROM " + tableName+" ;";
         dbStatement.execute(query);
@@ -18,7 +18,7 @@ public class HelpTestClass {
     }
     public void fillDB(String tableName) throws SQLException{
         Connection conn = null;
-        conn = DriverManager.getConnection("jdbc:sqlite:src/main/test/resources/testDB.db");
+        conn = DriverManager.getConnection("jdbc:sqlite:src/tests/com/codecool/shop/resources/db/Products_test.db");
         Statement dbStatement = conn.createStatement();
         String query = "INSERT INTO "+ tableName +" (id,name,department,description) VALUES " +
                 "(1,'Fruit','Food','The best the Earth has given us.'),\n" +
