@@ -1,5 +1,9 @@
 package com.codecool.shop.controller;
 
+import com.codecool.shop.dao.implementation.ProductDaoSQLite;
+import com.codecool.shop.model.Product;
+import com.codecool.shop.model.ProductCategory;
+import com.codecool.shop.model.Supplier;
 import org.junit.jupiter.api.Test;
 import spark.ModelAndView;
 import spark.Request;
@@ -9,6 +13,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -100,5 +105,20 @@ class ProductControllerTest {
                         " defaultCurrency: PLN, productCategory: Dairy, supplier: Mlekpol, id: 8, name: Eggs, " +
                         "defaultPrice: 5,40, defaultCurrency: PLN, productCategory: Dairy, supplier: Felix]}"
                 , productController.renderProducts(req, res).getModel().toString());
+    }
+
+    @Test
+    void testAddProduct() throws SQLException {
+        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/main/test/resources/test.db");
+        ProductController productController = new ProductController(conn);
+        ProductDaoSQLite productDaoSQLite = new ProductDaoSQLite(conn);
+        ProductCategory productCategory = new ProductCategory(1, "Fruit", "Test", "Test");
+        Supplier supplier = new Supplier(1, "Mlekpol", "Test");
+        Product product = new Product(25, "Test", 2.00f, "PLN", "Test", productCategory, supplier);
+        productController.addProduct(product);
+        List<Product> products = productDaoSQLite.getAll();
+        Product testProduct = products.get(products.size() - 1);
+        assertEquals(product.getName(), testProduct.getName());
+        productController.removeProduct(testProduct.getId());
     }
 }
