@@ -79,5 +79,16 @@ class CartItemTest {
         String quantity = "CartItem{id=6, product=id: 2, name: Milk, defaultPrice: 1,70, defaultCurrency: PLN, productCategory: Dairy, supplier: Mlekpol, productQuantity=2, totalPrice=3.4}";
         assertEquals(quantity,cartItemToString);
     }
+    @Test
+    public void TestIsSetChangeQuantity(){
+        DbConnector dbConnector = new DbConnector();
+        ProductDaoSQLite productDaoSQLite = new ProductDaoSQLite(dbConnector.getConnection());
+        Product product = productDaoSQLite.find(2);
+        CartItem cartItem = new CartItem(product,2);
+        cartItem.setProductQuantity(6);
+        String cartItemToString = cartItem.toString();
+        String quantity = "CartItem{id=6, product=id: 2, name: Milk, defaultPrice: 1,70, defaultCurrency: PLN, productCategory: Dairy, supplier: Mlekpol, productQuantity=6, totalPrice=10,2}";
+        assertEquals(quantity,cartItemToString);
+    }
 
 }
