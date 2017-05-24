@@ -1,6 +1,7 @@
 package com.codecool.shop.controller;
 
 import org.junit.jupiter.api.Test;
+import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
@@ -56,16 +57,24 @@ class ProductControllerTest {
         Connection conn = DriverManager.getConnection("jdbc:sqlite:src/main/test/resources/test.db");
         ProductController productController = new ProductController(conn);
         HashMap<String, String> hashMap = new HashMap<String, String>();
-        hashMap.put(":sid", "2");
+        hashMap.put(":sid", "1");
         when(req.params()).thenReturn(hashMap);
-        String testId = req.params().get(":sid");
-        Integer testInt = Integer.parseInt(req.params(":sid"));
-        assertEquals(""
+        ModelAndView testModelAndView = productController.renderProducts(req, res);
+        assertEquals("{categoryList=[id: 1, name: Fruit, department: Food, description: The best the Earth has given us.," +
+                        " id: 2, name: Dairy, department: Food, description: Stolen from under a cow's nose., id: 3," +
+                        " name: Pastries, department: Food, description: Tasty and fresh., id: 4, name: Meat," +
+                        " department: Food, description: Always fresh., id: 5, name: Processed, department: Food," +
+                        " description: Forever fresh.], supplierList=[id: 1, name: Mlekpol, description: Polish dairy products.," +
+                        " id: 2, name: Sokołów, description: Our sausages are actually superior., id: 3, name: Felix," +
+                        " description: Suck on that peanut, won't ya'?, id: 4, name: Boongaboonga," +
+                        " description: Our food isn't safe to eat., id: 5, name: PolSad, description: We only sell apples.," +
+                        " id: 6, name: Piekarnia Mojego Taty, description: Actually, only Mom knows how to make the bread we sell.]," +
+                        " productList=[id: 2, name: Milk, defaultPrice: 1,70, defaultCurrency: PLN," +
+                        " productCategory: Dairy, supplier: Mlekpol, id: 4, name: Butter, defaultPrice: 4,20," +
+                        " defaultCurrency: PLN, productCategory: Dairy, supplier: Mlekpol, id: 7, name: White cheese," +
+                        " defaultPrice: 1,80, defaultCurrency: PLN, productCategory: Dairy, supplier: Mlekpol]}"
                 , productController.renderProducts(req, res).getModel().toString());
     }
 
-    @Test
-    void removeProduct() {
-    }
-
+    
 }
