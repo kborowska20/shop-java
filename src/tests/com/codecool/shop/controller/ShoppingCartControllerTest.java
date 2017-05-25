@@ -48,10 +48,24 @@ class ShoppingCartControllerTest {
         ProductController productController = new ProductController(conn);
         ShoppingCartController shoppingCartController = new ShoppingCartController(conn, productController);
         shoppingCartController.handleAddToCartRequest(req,res);
-        shoppingCartController.handleRemoveFromCartRequest(req,res);
         ModelAndView shoppingCartModelAndView = shoppingCartController.renderCartItems(req, res);
-        assertEquals("",shoppingCartModelAndView.getModel().toString());
+        HashMap<String, ArrayList<CartItem>> shoppingCartModel = (HashMap<String, ArrayList<CartItem>>) shoppingCartModelAndView.getModel();
+        ArrayList<CartItem> arr = shoppingCartModel.get("cartItemList");
+        Integer intCat = arr.get(0).getId();
+        HashMap<String, String> hashMap1 = new HashMap<String, String>();
+        hashMap1.put(":pid", intCat.toString());
+        hashMap1.put("item-quantity", "5");
+        when(req.params()).thenReturn(hashMap1);
+        shoppingCartController.handleRemoveFromCartRequest(req,res);
+        ModelAndView testModelandView = shoppingCartController.renderCartItems(req, res);
+        assertEquals("{cartItemList=[], supplierList=[id: 1, name: Mlekpol, description: Polish dairy products.," +
+                        " id: 2, name: Sokołów, description: Our sausages are actually superior., id: 3, name: Felix," +
+                        " description: Suck on that peanut, won't ya'?, id: 4, name: Boongaboonga, description: Our food isn't safe to eat.," +
+                        " id: 5, name: PolSad, description: We only sell apples., id: 6, name: Piekarnia Mojego Taty, " +
+                        "description: Actually, only Mom knows how to make the bread we sell.]}",
+                shoppingCartModelAndView.getModel().toString());
     }
+
     @Test
     public void testHandleEditQuantityRequest() throws SQLException {
         Request req = mock(Request.class);
