@@ -32,10 +32,12 @@ class CartItemTest {
         DbConnector dbConnector = new DbConnector();
         ProductDaoSQLite productDaoSQLite = new ProductDaoSQLite(dbConnector.getConnection());
         Product product = productDaoSQLite.find(2);
+        Product product1 = productDaoSQLite.find(1);
         CartItem cartItem = new CartItem(product,2);
+        CartItem cartItem1 = new CartItem(product1,1);
         Integer cartItemId = cartItem.getId();
-        Integer realId = 2;
-        assertEquals(realId,cartItemId);
+        Integer cartItemId1 = cartItem1.getId();
+        assertTrue(cartItemId < cartItemId1);
     }
     @Test
     public void TestGetProductQuantity(){
