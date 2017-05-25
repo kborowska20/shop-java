@@ -51,6 +51,7 @@ class ShoppingCartTest {
         shoppingCart.addProduct(cartItem1);
         Float shoppingCartPrice = shoppingCart.calculateCheckoutPrice();
         Float realCheckoutPrice = 12.7f;
-        assertEquals(realCheckoutPrice,shoppingCartPrice);
+        boolean areAlmostEquals = Math.abs(shoppingCartPrice-realCheckoutPrice)<0.001;
+        assertTrue(areAlmostEquals);
     }
 }
