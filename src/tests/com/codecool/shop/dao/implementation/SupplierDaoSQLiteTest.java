@@ -61,6 +61,7 @@ class SupplierDaoSQLiteTest {
     @AfterAll
     static void fillDB() throws SQLException {
         HelpTestClass helpTestClass = new HelpTestClass();
+        helpTestClass.ClearTableInDB("Supplier");
         helpTestClass.fillDbSupplier("Supplier");
     }
 
