@@ -28,7 +28,7 @@ class ProductControllerTest {
     void testRenderAllProducts() throws SQLException {
         Request req = mock(Request.class);
         Response res = mock(Response.class);
-        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/main/test/resources/test.db");
+        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/tests/com/codecool/shop/resources/db/Products_test.db");
         ProductController productController = new ProductController(conn);
         assertEquals("{categoryList=[id: 1, name: Fruit, department: Food," +
                         " description: The best the Earth has given us., id: 2, name: Dairy, department: Food," +
@@ -59,7 +59,7 @@ class ProductControllerTest {
     void renderProductsBySupplier() throws SQLException {
         Request req = mock(Request.class);
         Response res = mock(Response.class);
-        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/main/test/resources/test.db");
+        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/tests/com/codecool/shop/resources/db/Products_test.db");
         ProductController productController = new ProductController(conn);
         HashMap<String, String> hashMap = new HashMap<String, String>();
         hashMap.put(":sid", "1");
@@ -85,7 +85,7 @@ class ProductControllerTest {
     void renderProductsByCategory() throws SQLException {
         Request req = mock(Request.class);
         Response res = mock(Response.class);
-        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/main/test/resources/test.db");
+        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/tests/com/codecool/shop/resources/db/Products_test.db");
         ProductController productController = new ProductController(conn);
         HashMap<String, String> hashMap = new HashMap<String, String>();
         hashMap.put(":cid", "2");
@@ -109,7 +109,7 @@ class ProductControllerTest {
 
     @Test
     void testAddProduct() throws SQLException {
-        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/main/test/resources/test.db");
+        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/tests/com/codecool/shop/resources/db/Products_test.db");
         ProductController productController = new ProductController(conn);
         ProductDaoSQLite productDaoSQLite = new ProductDaoSQLite(conn);
         ProductCategory productCategory = new ProductCategory(1, "Fruit", "Test", "Test");
