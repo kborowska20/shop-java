@@ -22,7 +22,7 @@ class ProductDaoSQLiteTest {
 
     @Test
     void testFindProduct() throws SQLException {
-        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/main/test/resources/test.db");
+        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/tests/com/codecool/shop/resources/db/Products_test.db");
         ProductDaoSQLite productDaoSQLite = new ProductDaoSQLite(conn);
         assertEquals("id: 2, name: Milk, defaultPrice: 1,70, defaultCurrency: PLN," +
                 " productCategory: Dairy, supplier: Mlekpol", productDaoSQLite.find(2).toString());
@@ -30,7 +30,7 @@ class ProductDaoSQLiteTest {
 
     @Test
     void testGetByCategory() throws SQLException {
-        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/main/test/resources/test.db");
+        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/tests/com/codecool/shop/resources/db/Products_test.db");
         ProductDaoSQLite productDaoSQLite = new ProductDaoSQLite(conn);
         ProductCategory productCategory = new ProductCategory(1, "Test", "Test", "Test");
         assertEquals("[id: 3, name: Bananas, defaultPrice: 3,10, defaultCurrency: PLN, productCategory: Test," +
@@ -43,7 +43,7 @@ class ProductDaoSQLiteTest {
 
     @Test
     void testGetBySupplier() throws SQLException {
-        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/main/test/resources/test.db");
+        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/tests/com/codecool/shop/resources/db/Products_test.db");
         ProductDaoSQLite productDaoSQLite = new ProductDaoSQLite(conn);
         Supplier supplier = new Supplier(1, "Test", "Test");
         assertEquals("[id: 2, name: Milk, defaultPrice: 1,70, defaultCurrency: PLN, productCategory: Dairy," +
@@ -55,7 +55,7 @@ class ProductDaoSQLiteTest {
 
     @Test
     void testGetAll() throws SQLException {
-        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/main/test/resources/test.db");
+        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/tests/com/codecool/shop/resources/db/Products_test.db");
         ProductDaoSQLite productDaoSQLite = new ProductDaoSQLite(conn);
         assertEquals("[id: 1, name: Bread, defaultPrice: 2,20, defaultCurrency: PLN, productCategory: Pastries," +
                         " supplier: Piekarnia Mojego Taty, id: 2, name: Milk, defaultPrice: 1,70, defaultCurrency: PLN," +
@@ -75,7 +75,7 @@ class ProductDaoSQLiteTest {
 
     @Test
     void testAdd() throws SQLException {
-        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/main/test/resources/test.db");
+        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/tests/com/codecool/shop/resources/db/Products_test.db");
         ProductDaoSQLite productDaoSQLite = new ProductDaoSQLite(conn);
         ProductCategory productCategory = new ProductCategory(1, "Fruit", "Test", "Test");
         Supplier supplier = new Supplier(1, "Mlekpol", "Test");
@@ -89,7 +89,7 @@ class ProductDaoSQLiteTest {
 
     @Test
     void testThrowMismatchException() throws SQLException {
-        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/main/test/resources/test.db");
+        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/tests/com/codecool/shop/resources/db/Products_test.db");
         ProductDaoSQLite productDaoSQLite = new ProductDaoSQLite(conn);
         assertThrows(TypeMismatchException.class, () -> productDaoSQLite.add(null));
     }
