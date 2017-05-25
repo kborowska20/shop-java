@@ -1,10 +1,9 @@
 package com.codecool.shop.model;
 
-import com.codecool.shop.dao.implementation.DbConnector;
-import com.codecool.shop.dao.implementation.ProductDaoSQLite;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CartItemTest {
 
@@ -91,7 +90,7 @@ class CartItemTest {
                 "TestDescription", productCategory, supplier);
         CartItem cartItem = new CartItem(product,2);
         String cartItemToString = cartItem.toString();
-        String quantity = "CartItem{id=0, product=id: 2, name: TestProduct, defaultPrice: 1,70, defaultCurrency: PLN, productCategory: TestCategory, supplier: TestSupplier, productQuantity=2, totalPrice=3.4}";
+        String quantity = "CartItem{id=" + cartItem.getId() + ", product=id: 2, name: TestProduct, defaultPrice: 1,70, defaultCurrency: PLN, productCategory: TestCategory, supplier: TestSupplier, productQuantity=2, totalPrice=3.4}";
         assertEquals(quantity,cartItemToString);
     }
 
