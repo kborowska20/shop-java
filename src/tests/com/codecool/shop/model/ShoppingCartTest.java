@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ShoppingCartTest {
 
@@ -65,6 +65,6 @@ class ShoppingCartTest {
         shoppingCart.addProduct(cartItem);
         shoppingCart.addProduct(cartItem1);
         ArrayList<CartItem> shoppingCartList = shoppingCart.getItemList();
-        assertEquals("[CartItem{id=0, product=id: 2, name: Milk, defaultPrice: 1,70, defaultCurrency: PLN, productCategory: Dairy, supplier: Mlekpol, productQuantity=4, totalPrice=6.8}, CartItem{id=1, product=id: 2, name: Milk, defaultPrice: 1,70, defaultCurrency: PLN, productCategory: Dairy, supplier: Mlekpol, productQuantity=3, totalPrice=5.1}]",shoppingCartList.toString());
+        assertEquals("[CartItem{id=" + cartItem.getId() + ", product=id: 2, name: Milk, defaultPrice: 1,70, defaultCurrency: PLN, productCategory: Dairy, supplier: Mlekpol, productQuantity=4, totalPrice=6.8}, CartItem{id=" + cartItem1.getId() + ", product=id: 2, name: Milk, defaultPrice: 1,70, defaultCurrency: PLN, productCategory: Dairy, supplier: Mlekpol, productQuantity=3, totalPrice=5.1}]", shoppingCartList.toString());
     }
 }
