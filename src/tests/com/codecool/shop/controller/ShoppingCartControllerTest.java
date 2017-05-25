@@ -1,10 +1,6 @@
 package com.codecool.shop.controller;
 
-import com.codecool.shop.dao.implementation.DbConnector;
-import com.codecool.shop.dao.implementation.ProductDaoSQLite;
 import com.codecool.shop.model.CartItem;
-import com.codecool.shop.model.Product;
-import com.codecool.shop.model.ShoppingCart;
 import org.junit.jupiter.api.Test;
 import spark.ModelAndView;
 import spark.Request;
@@ -12,16 +8,13 @@ import spark.Response;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
-import static org.mockito.Mockito.*;
-
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ShoppingCartControllerTest {
 
@@ -41,7 +34,7 @@ class ShoppingCartControllerTest {
         HashMap<String,ArrayList<CartItem>> shoppingCartModel = (HashMap<String, ArrayList<CartItem>>) shoppingCartModelAndView.getModel();
         ArrayList<CartItem> arr = shoppingCartModel.get("cartItemList");
         Integer intCat = arr.get(0).getId();
-        assertEquals("{cartItemList=[CartItem{id=0, product=id: 2, name: Milk, defaultPrice: 1,70, defaultCurrency: PLN, productCategory: Dairy, supplier: Mlekpol, productQuantity=1, totalPrice=1.7}], supplierList=[id: 1, name: Mlekpol, description: Polish dairy products., id: 2, name: Sokołów, description: Our sausages are actually superior., id: 3, name: Felix, description: Suck on that peanut, won't ya'?, id: 4, name: Boongaboonga, description: Our food isn't safe to eat., id: 5, name: PolSad, description: We only sell apples., id: 6, name: Piekarnia Mojego Taty, description: Actually, only Mom knows how to make the bread we sell.]}", shoppingCartModelAndView.getModel().toString());
+        assertEquals("{cartItemList=[CartItem{id=" + intCat + ", product=id: 2, name: Milk, defaultPrice: 1,70, defaultCurrency: PLN, productCategory: Dairy, supplier: Mlekpol, productQuantity=1, totalPrice=1.7}], supplierList=[id: 1, name: Mlekpol, description: Polish dairy products., id: 2, name: Sokołów, description: Our sausages are actually superior., id: 3, name: Felix, description: Suck on that peanut, won't ya'?, id: 4, name: Boongaboonga, description: Our food isn't safe to eat., id: 5, name: PolSad, description: We only sell apples., id: 6, name: Piekarnia Mojego Taty, description: Actually, only Mom knows how to make the bread we sell.]}", shoppingCartModelAndView.getModel().toString());
     }
     @Test
     public void testRemoveFromCartRequest() throws SQLException {
@@ -81,7 +74,7 @@ class ShoppingCartControllerTest {
         hashMap1.put("item-quantity","5");
         when(req1.params()).thenReturn(hashMap1);
         shoppingCartController.handleEditQuantityRequest(req1,res);
-        assertEquals("{cartItemList=[CartItem{id=0, product=id: 2, name: Milk, defaultPrice: 1,70, defaultCurrency: PLN, productCategory: Dairy, supplier: Mlekpol, productQuantity=5, totalPrice=8.5}], supplierList=[id: 1, name: Mlekpol, description: Polish dairy products., id: 2, name: Sokołów, description: Our sausages are actually superior., id: 3, name: Felix, description: Suck on that peanut, won't ya'?, id: 4, name: Boongaboonga, description: Our food isn't safe to eat., id: 5, name: PolSad, description: We only sell apples., id: 6, name: Piekarnia Mojego Taty, description: Actually, only Mom knows how to make the bread we sell.]}",shoppingCartModelAndView.getModel().toString());
+        assertEquals("{cartItemList=[CartItem{id=" + intCat + ", product=id: 2, name: Milk, defaultPrice: 1,70, defaultCurrency: PLN, productCategory: Dairy, supplier: Mlekpol, productQuantity=5, totalPrice=8.5}], supplierList=[id: 1, name: Mlekpol, description: Polish dairy products., id: 2, name: Sokołów, description: Our sausages are actually superior., id: 3, name: Felix, description: Suck on that peanut, won't ya'?, id: 4, name: Boongaboonga, description: Our food isn't safe to eat., id: 5, name: PolSad, description: We only sell apples., id: 6, name: Piekarnia Mojego Taty, description: Actually, only Mom knows how to make the bread we sell.]}", shoppingCartModelAndView.getModel().toString());
     }
 
     @Test
