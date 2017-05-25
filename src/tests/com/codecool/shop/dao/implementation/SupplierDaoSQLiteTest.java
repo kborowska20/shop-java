@@ -2,6 +2,7 @@ package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.controller.HelpTestClass;
 import com.codecool.shop.model.Supplier;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,5 +58,10 @@ class SupplierDaoSQLiteTest {
         assertEquals(0, supplierDaoSQLite.getAll().size());
     }
 
+    @AfterAll
+    static void fillDB() throws SQLException {
+        HelpTestClass helpTestClass = new HelpTestClass();
+        helpTestClass.fillDbSupplier("Supplier");
+    }
 
 }
