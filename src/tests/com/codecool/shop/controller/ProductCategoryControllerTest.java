@@ -15,9 +15,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Created by oskar on 22.05.17.
- */
 class ProductCategoryControllerTest {
 
 
@@ -83,6 +80,7 @@ class ProductCategoryControllerTest {
     @AfterAll
     static void fillDb() throws SQLException{
         HelpTestClass helpTestClass = new HelpTestClass();
+        helpTestClass.ClearTableInDB("productCategory");
         helpTestClass.fillDBProductCategory("productCategory");
     }
 }
