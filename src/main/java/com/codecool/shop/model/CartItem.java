@@ -3,8 +3,8 @@ package com.codecool.shop.model;
 public class CartItem {
 
     private static Integer idCount = 0;
-    private Integer id;
-    private Product product;
+    private final Integer id;
+    private final Product product;
     private Integer productQuantity;
     private Float totalPrice;
 
@@ -33,10 +33,13 @@ public class CartItem {
 
     public void setProductQuantity(Integer productQuantity) {
         this.productQuantity = productQuantity;
+        this.totalPrice = getTotalPrice();
     }
 
     public void addToProductQuantity(Integer productQuantity) {
         this.productQuantity += productQuantity;
+        this.totalPrice = getTotalPrice();
+
     }
 
     @Override
