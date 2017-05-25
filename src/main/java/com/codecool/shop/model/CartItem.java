@@ -3,36 +3,37 @@ package com.codecool.shop.model;
 public class CartItem {
 
     private static Integer idCount = 0;
-    private Integer id;
-    private Product product;
+    private final Integer id;
+    private final Product product;
     private Integer productQuantity;
     private Float totalPrice;
 
     public CartItem(Product product, Integer productQuantity) {
-        this.id = getNextId();
+        id = this.getNextId();
         this.product = product;
         this.productQuantity = productQuantity;
-        this.totalPrice = getTotalPrice();
+        totalPrice = this.getTotalPrice();
     }
 
     public Product getProduct() {
-        return product;
+        return this.product;
     }
 
     public Integer getId() {
-        return id;
+        return this.id;
     }
 
     private Integer getNextId() {
-        return idCount++;
+        return CartItem.idCount++;
     }
 
     public Integer getProductQuantity() {
-        return this.productQuantity;
+        return productQuantity;
     }
 
     public void setProductQuantity(Integer productQuantity) {
         this.productQuantity = productQuantity;
+        totalPrice = this.getTotalPrice();
     }
 
     public void addToProductQuantity(Integer productQuantity) {
@@ -42,14 +43,14 @@ public class CartItem {
     @Override
     public String toString() {
         return "CartItem{" +
-                "id=" + id +
-                ", product=" + product +
-                ", productQuantity=" + productQuantity +
-                ", totalPrice=" + totalPrice +
+                "id=" + this.id +
+                ", product=" + this.product +
+                ", productQuantity=" + this.productQuantity +
+                ", totalPrice=" + this.totalPrice +
                 '}';
     }
 
     Float getTotalPrice() {
-        return this.product.getDefaultPrice() * this.productQuantity;
+        return product.getDefaultPrice() * productQuantity;
     }
 }
