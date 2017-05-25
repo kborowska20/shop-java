@@ -9,48 +9,50 @@ public class CartItem {
     private Float totalPrice;
 
     public CartItem(Product product, Integer productQuantity) {
-        id = this.getNextId();
+        this.id = getNextId();
         this.product = product;
         this.productQuantity = productQuantity;
-        totalPrice = this.getTotalPrice();
+        this.totalPrice = getTotalPrice();
     }
 
     public Product getProduct() {
-        return this.product;
+        return product;
     }
 
     public Integer getId() {
-        return this.id;
+        return id;
     }
 
     private Integer getNextId() {
-        return CartItem.idCount++;
+        return idCount++;
     }
 
     public Integer getProductQuantity() {
-        return productQuantity;
+        return this.productQuantity;
     }
 
     public void setProductQuantity(Integer productQuantity) {
         this.productQuantity = productQuantity;
-        totalPrice = this.getTotalPrice();
+        this.totalPrice = getTotalPrice();
     }
 
     public void addToProductQuantity(Integer productQuantity) {
         this.productQuantity += productQuantity;
+        this.totalPrice = getTotalPrice();
+
     }
 
     @Override
     public String toString() {
         return "CartItem{" +
-                "id=" + this.id +
-                ", product=" + this.product +
-                ", productQuantity=" + this.productQuantity +
-                ", totalPrice=" + this.totalPrice +
+                "id=" + id +
+                ", product=" + product +
+                ", productQuantity=" + productQuantity +
+                ", totalPrice=" + totalPrice +
                 '}';
     }
 
     Float getTotalPrice() {
-        return product.getDefaultPrice() * productQuantity;
+        return this.product.getDefaultPrice() * this.productQuantity;
     }
 }
