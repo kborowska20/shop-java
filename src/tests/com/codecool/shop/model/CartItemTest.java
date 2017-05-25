@@ -103,7 +103,7 @@ class CartItemTest {
         CartItem cartItem = new CartItem(product,2);
         cartItem.setProductQuantity(6);
         String cartItemToString = cartItem.toString();
-        String quantity = "CartItem{id=0, product=id: 2, name: TestProduct, defaultPrice: 1,70, defaultCurrency: PLN, productCategory: TestCategory, supplier: TestSupplier, productQuantity=6, totalPrice=10.2}";
+        String quantity = "CartItem{id=" + cartItem.getId() + ", product=id: 2, name: TestProduct, defaultPrice: 1,70, defaultCurrency: PLN, productCategory: TestCategory, supplier: TestSupplier, productQuantity=6, totalPrice=10.2}";
         assertEquals(quantity,cartItemToString);
     }
 
