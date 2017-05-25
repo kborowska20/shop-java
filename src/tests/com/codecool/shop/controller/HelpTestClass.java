@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 public class HelpTestClass {
 
-    public void clearAllDb(String tableName) throws SQLException{
+    public void ClearTableInDB(String tableName) throws SQLException{
         Connection conn = null;
         conn = DriverManager.getConnection("jdbc:sqlite:src/tests/com/codecool/shop/resources/db/Products_test.db");
         Statement dbStatement = conn.createStatement();
@@ -16,7 +16,7 @@ public class HelpTestClass {
         dbStatement.close();
 
     }
-    public void fillDB(String tableName) throws SQLException{
+    public void fillDBProductCategory(String tableName) throws SQLException{
         Connection conn = null;
         conn = DriverManager.getConnection("jdbc:sqlite:src/tests/com/codecool/shop/resources/db/Products_test.db");
         Statement dbStatement = conn.createStatement();
@@ -26,6 +26,21 @@ public class HelpTestClass {
                 " (3,'Pastries','Food','Tasty and fresh.'),\n" +
                 " (4,'Meat','Food','Always fresh.'),\n" +
                 " (5,'Processed','Food','Forever fresh.');";
+        dbStatement.execute(query);
+        dbStatement.close();
+
+    }
+    public void fillDbSupplier(String tableName) throws SQLException{
+        Connection conn = null;
+        conn = DriverManager.getConnection("jdbc:sqlite:src/tests/com/codecool/shop/resources/db/Products_test.db");
+        Statement dbStatement = conn.createStatement();
+        String query = "INSERT INTO "+tableName+" (id,name,description) VALUES (1,'Mlekpol','Polish dairy products.'),\n" +
+                " (2,'Sokołów','Our sausages are actually superior.'),\n" +
+                " (3,'Felix','Suck on that peanut, won''t ya''?'),\n" +
+                " (4,'Boongaboonga','Our food isn''t safe to eat.'),\n" +
+                " (5,'PolSad','We only sell apples.'),\n" +
+                " (6,'Piekarnia Mojego Taty','Actually, only Mom knows how to make the bread we sell.');\n" +
+                "COMMIT;";
         dbStatement.execute(query);
         dbStatement.close();
 

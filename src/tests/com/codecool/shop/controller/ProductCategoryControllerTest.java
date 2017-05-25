@@ -2,20 +2,15 @@ package com.codecool.shop.controller;
 import static org.mockito.Mockito.*;
 
 
-import com.codecool.shop.dao.ProductCategoryDao;
-import com.codecool.shop.dao.implementation.DbConnector;
 import com.codecool.shop.dao.implementation.ProductCategoryDaoSQLite;
 import com.codecool.shop.model.ProductCategory;
 import org.junit.jupiter.api.*;
-import org.mockito.Mockito;
 import spark.ModelAndView;
 import spark.Request;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLDataException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,13 +25,13 @@ class ProductCategoryControllerTest {
     void clearDb() throws SQLException
     {
         HelpTestClass helpTestClass = new HelpTestClass();
-        helpTestClass.clearAllDb("productCategory");
+        helpTestClass.ClearTableInDB("productCategory");
     }
 
     @Test
     void testRenderAllCategories() throws SQLException {
         HelpTestClass helpTestClass = new HelpTestClass();
-        helpTestClass.fillDB("productCategory");
+        helpTestClass.fillDBProductCategory("productCategory");
         Connection conn = null;
         conn = DriverManager.getConnection("jdbc:sqlite:src/tests/com/codecool/shop/resources/db/Products_test.db");
         ProductCategoryController productCategoryController = new ProductCategoryController(conn);
@@ -88,6 +83,6 @@ class ProductCategoryControllerTest {
     @AfterAll
     static void fillDb() throws SQLException{
         HelpTestClass helpTestClass = new HelpTestClass();
-        helpTestClass.fillDB("productCategory");
+        helpTestClass.fillDBProductCategory("productCategory");
     }
 }
