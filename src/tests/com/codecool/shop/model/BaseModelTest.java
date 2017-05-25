@@ -11,7 +11,7 @@ class BaseModelTest {
     @Test
     void testToString() {
         BaseModel baseModel = new BaseModel("Test", "Testcription");
-        assertEquals("id:0,name:Test,description:Testcription", baseModel.toString());
+        assertEquals("id:0,name:Test,description:Testcription,", baseModel.toString());
     }
 
 }
